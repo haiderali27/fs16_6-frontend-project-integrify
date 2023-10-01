@@ -1,6 +1,6 @@
 import { PropsWithChildren, ReactElement } from "react"
 import { RenderOptions, render } from "@testing-library/react"
-import store from "../shared/store"
+import {store} from '../../shared/store'
 import { Provider } from "react-redux"
 
 const appRender = (
@@ -8,7 +8,7 @@ const appRender = (
     options: RenderOptions = {}
 ) => {
     const Wrapper = ({ children }: PropsWithChildren): JSX.Element => {
-        return <Provider store={store}>{children}</Provider>
+        return <div></div>//<Provider store={store}>{children}</Provider>
     }
     return {
         ...render(component, {wrapper: Wrapper, ...options})
