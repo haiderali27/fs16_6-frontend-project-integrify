@@ -17,4 +17,6 @@ export interface Category {
     updatedAt?: string;
   }
   
+export interface UserData{
 
+}
