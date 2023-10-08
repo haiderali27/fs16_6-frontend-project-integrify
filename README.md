@@ -1,31 +1,37 @@
-# Front-end Project
+# Brewery Assignment
 
-![React](https://img.shields.io/badge/React-v.18-blue)
-![Redux toolkit](https://img.shields.io/badge/RTK-v.1-purple)
-![TypeScript](https://img.shields.io/badge/TypeScript-v.4-green)
-![SASS](https://img.shields.io/badge/SASS-v.1-hotpink)
+- [Project structure](#structure)
+- [Assignment Tasks](#assignment-tasks)
+- [Instruction to start the project](#Instruction to start the project)
+- [Deployed Url](#deployed-url)
 
-This project requires implementation of TypeScript and SASS.
 
-## Requirement
 
-1. Use the API endpoint [https://fakeapi.platzi.com/](https://fakeapi.platzi.com/) to create an e-commerce website. Read the documentation and learn how to use the different endpoints.
-2. Create at lease 4 pages (can be more if you want): Page for all products, product page,
-   profile page (only available if user logins), and cart page (cart page could be a page or a modal)
-3. Create Redux store for following features:
-   - product reducer: get all products, find a single products, filter products by
-     categories, sort products by price. Create, update and delete a product (enable update & delete features only for admin of the webapp)
-   - user reducer: register and login
-   - cart reducer: add product to cart, remove products, update products's quantity in cart
-4. When adding routers to your application, programatically set certain routes to be private. For example, route to user profile page should not be accessible if user has not logged in.
-5. Implement unit testing for the reducers
-6. Deploy the application and rewrite README file.
+## Structure
 
-## Bonus
+```
+.
+├── package-lock.json
+├── package.json
+├── README.md
+├── src
+|  ├── App.tsx
+|  ├── brewery.tsx
+|  ├── hooks.tsx
+|  ├── index.tsx
+|  ├── index.css
+|  ├── interfaces.tsx
+|  └── main.tsx
+└── tsconfig.json
+```
 
-1. Use context API to switch theme
-2. Use pagination when fetching/displaying all the products
-3. Implement performance optimization where applicable
+
+## Assignment Tasks
+Read the README.md of the main repository that this repository is forked from. Complete the tasks mentioned there. 
+
+
+## Deployed URL
+
 
 ## Instruction to start the project
 
@@ -36,6 +42,12 @@ In the project directory, you can run:
 Install all the dependencies
 
 ### `npm start`
+
+Use
+git clone git@github.com:haiderali27/fs16_6-frontend-project.git
+to clone the project to your computer directory. 
+Navigate to folder "fs16_6-frontend-project"
+
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
