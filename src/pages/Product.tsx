@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store/store";
 import { Link } from "react-router-dom";
-import {ImageList, ImageListItem } from '@mui/material';
+import {Button, ImageList, ImageListItem } from '@mui/material';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
@@ -25,6 +25,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 import products, { getSingleProduct } from "../store/products";
 import { getProducts } from "../store/products";
+import { addToCart } from "../store/cart";
 
 
 
@@ -32,6 +33,9 @@ import { getProducts } from "../store/products";
 const Product = () => {
   const {id}  = useParams();
   const dispatch = useDispatch<AppDispatch>();
+  const cartItems = useSelector((state: RootState) => state.cart.items);
+
+
   const { products:  product  } = useSelector((state: RootState) => state);
     const prod = product.product;
     let searchId: string = id||"";
@@ -40,7 +44,11 @@ const Product = () => {
       dispatch(getSingleProduct(searchId));
     }, [dispatch]);
 
-
+    const handleAddToCart = () => {
+      //console.log('product: ', prod)
+      dispatch(addToCart(prod));
+      //console.log('########',cartItems);
+  };
   return (
     <div>
      <Card key={id} style={{ margin: '10px' }}>
@@ -62,9 +70,8 @@ const Product = () => {
                         </ImageListItem>
                         ))}
                     </ImageList>
-
-                    
                     </Card>
+                    <Button onClick={handleAddToCart} variant="outlined">Add To Cart</Button>
     </div>
   );
 };

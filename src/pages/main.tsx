@@ -19,6 +19,7 @@ import ProductsList from "../components/productList";
 import ProductPage from "./Products";
 import ProductsPage from "./Products";
 import Product from "./Product";
+import CartItems from "./CartItems";
 
 
 
@@ -39,7 +40,7 @@ const MainPage = () => {
         <Route path="/" element={<div />} />
         <Route path="/products/" element={<ProductsPage />}></Route>
         <Route path="/product/:id" element={<Product />}></Route>
-        <Route path="/signin" element={<div />} />
+        <Route path="/cart" element={<CartItems />} />
         <Route path="/" element={<div />} />
         <Route path="/" element={<div />} />
         </Routes>

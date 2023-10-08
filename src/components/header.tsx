@@ -27,8 +27,14 @@ const Header = () => {
         onChange={()=>{}}
       /> <SearchIcon />
       </Box>
-
-        <Button color="inherit">
+      <Button color="inherit" onClick={()=>{
+          window.location.href = "/products";
+        }}>
+            Products
+        </Button>
+        <Button color="inherit" onClick={()=>{
+          window.location.href = "/cart";
+        }}>
             <ShoppingCartIcon style={{ marginRight: '5px' }} />
             Cart
         </Button>

@@ -3,7 +3,7 @@ import { Provider } from "react-redux"
 import {store} from "../../shared/store"
 import App from "../../App"
 import appRender from "./appRender"
-import {userServer} from "../../servers/userServer"
+import userServer from "../../servers/userServer"
 
 //beforeAll(() => userServer.listen())
 //afterAll(() => userServer.close())
