@@ -2,7 +2,7 @@
 
 - [Project structure](#structure)
 - [Assignment Tasks](#assignment-tasks)
-- [Instruction to start the project](#Instruction to start the project)
+- [Instruction to start the project](#Instruction-to-start-the-project)
 - [Deployed Url](#deployed-url)
 
 
