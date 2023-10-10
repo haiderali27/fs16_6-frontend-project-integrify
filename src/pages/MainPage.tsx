@@ -7,23 +7,24 @@ import  { useEffect } from "react";
 
 import Header from '../components/Header'
 import Footer from "../components/Footer";
-import ProductsPage from "./Products";
-import Product from "./Product";
-import CartItems from "./CartItems";
+import ProductsPage from "./ProductsPage";
+import Product from "../components/Product";
+import CartItems from "./CartPage";
 import SignUp from "../components/Signup";
 import SignIn from "../components/Login";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../store/store";
-import { createUser, login, logoutUser } from "../store/user";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../store/store";
 import { getProducts } from "../store/products";
 import { getCategories } from "../store/categories";
 import UserProfile from "../components/UserProfile";
+//import { createUser, login, logoutUser } from "../store/user";
 
 
 //import ProductsList from "../components/ProductList";
 const MainPage = () => {
 
   const dispatch: AppDispatch = useDispatch();
+  const { user: {loggedIn } } = useSelector((state: RootState) => state);
 
   useEffect(() => {
     //dispatch(createUser({email:"asd@integrify.com", name:"ASdd", password:"Integrify1234", avatar:"https://api.lorem.space/image/face?w=640&h=480&r=867"}));
@@ -44,7 +45,7 @@ const MainPage = () => {
         <Route path="/cart" element={<CartItems />} />
         <Route path="/signin" element={<SignIn/>} />
         <Route path="/signup" element={<SignUp/>} />
-        <Route path="/userProfile" element={<UserProfile />} />
+        {loggedIn && <Route path="/userProfile" element={<UserProfile />} />}
         </Routes>
         </Router>
         <Footer/>

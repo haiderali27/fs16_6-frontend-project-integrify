@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import {Grid, ImageList, ImageListItem, MenuItem, Select } from '@mui/material';
+import {Grid, ImageList, ImageListItem} from '@mui/material';
 
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -10,6 +10,23 @@ import Typography from '@mui/material/Typography';
 
 
 import { Product } from "../types/types";
+const initialStateProduct: Product ={
+    id:0,
+    title:"",
+    price:0,
+    description:"",
+    images:[],
+    category:{
+      id:0,
+      name:"",
+      image:"",
+      creationAt:"",
+      updatedAt:"",
+    },
+    creationAt:"",
+    updatedAt:""
+  }
+  
 
 const divStyle = {
     overflow:'auto',
@@ -19,7 +36,7 @@ const divStyle = {
 
   };
 
-const ProductsList = ({ products = []}) => {
+const ProductsList = ({ products = [initialStateProduct]}) => {
     
   const list = products;
 

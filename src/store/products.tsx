@@ -33,25 +33,38 @@ const initialStateProduct: Product ={
   },
   creationAt:"",
   updatedAt:""
-
 }
+
 const productsSlice = createSlice({
   name: "products",
   initialState: {
-    list: [],
+    listfromAPI:[initialStateProduct],
+    list: [initialStateProduct],
     product: initialStateProduct,
-    filtered: [],
-    sorted: [],
     related: [],
     isLoading: false,
   },
   reducers: {
-    sortByPrice: (state, { payload }) => {
-    
-      state.sorted = state.list.filter(({ price }) => price < payload);
+    sortByPriceRange: (state, {payload})=>{
+      state.list = state.listfromAPI.filter(({ price }) => price < payload);
+    },
+
+    sortByPriceAsc: (state) => {
+      state.list = state.listfromAPI.slice().sort((a, b) => a.price - b.price);
+    },
+    sortByPriceDesc: (state) => {
+      state.list = state.listfromAPI.slice().sort((a, b) => b.price - a.price);
+    },
+    unsortByPrice: (state) => {
+      state.list = state.listfromAPI;
     },
     filteredByCategories: (state, { payload }) => {
-      state.filtered = state.list.filter(({ categories }) => categories === payload);
+      if(payload.length===0){
+        state.list = state.listfromAPI
+
+      }else{
+        state.list = state.listfromAPI.filter(({category}) => category.id == payload.id )     
+      }
     },
   },
   extraReducers: (builder) => {
@@ -59,6 +72,7 @@ const productsSlice = createSlice({
       state.isLoading = true;
     });
     builder.addCase(getProducts.fulfilled, (state, { payload }) => {
+      state.listfromAPI = payload;
       state.list = payload;
       state.isLoading = false;
     });
@@ -77,7 +91,7 @@ const productsSlice = createSlice({
     });
   },
 });
-export const { sortByPrice, filteredByCategories } = productsSlice.actions;
+export const {unsortByPrice, sortByPriceRange, sortByPriceAsc, sortByPriceDesc,filteredByCategories } = productsSlice.actions;
 
 
 export default productsSlice.reducer;

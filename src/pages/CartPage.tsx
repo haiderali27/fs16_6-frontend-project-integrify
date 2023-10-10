@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { styled } from '@mui/material/styles';
-import CartComponent from "../components/CartComponent";
+import CartComponent from "../components/Cart";
 
 const Div = styled('div')(({ theme }) => ({
   ...theme.typography.button,

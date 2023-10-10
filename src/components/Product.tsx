@@ -11,7 +11,7 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 
 
-import products, { getSingleProduct } from "../store/products";
+import  { getSingleProduct } from "../store/products";
 import { addToCart } from "../store/cart";
 
 
