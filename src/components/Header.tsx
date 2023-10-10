@@ -19,7 +19,7 @@ const toolbarStyle = {
 const Header = () => {
   const dispatch: AppDispatch = useDispatch();
   
-  const { user: { currentUser, loggedIn } } = useSelector((state: RootState) => state);
+  const { user: {loggedIn } } = useSelector((state: RootState) => state);
   let signButtonValue:string = loggedIn===true?"Sign Out":"Sign In";
   return (
     

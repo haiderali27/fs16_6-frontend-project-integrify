@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { BASE_URL } from "../constants/constants";
 import axios from "axios";
-import { stat } from "fs";
 import { Product } from "../types/types";
 export const getProducts = createAsyncThunk(
   "products/getProducts",
@@ -19,7 +18,7 @@ export const getSingleProduct = createAsyncThunk(
 }
 );
 
-const prod: Product ={
+const initialStateProduct: Product ={
   id:0,
   title:"",
   price:0,
@@ -40,7 +39,7 @@ const productsSlice = createSlice({
   name: "products",
   initialState: {
     list: [],
-    product: prod,
+    product: initialStateProduct,
     filtered: [],
     sorted: [],
     related: [],

@@ -5,19 +5,19 @@ import {
   } from "react-router-dom";
 import  { useEffect } from "react";
 
-import Header from '../components/header'
-import Footer from "../components/footer";
+import Header from '../components/Header'
+import Footer from "../components/Footer";
 import ProductsPage from "./Products";
 import Product from "./Product";
 import CartItems from "./CartItems";
-import SignUp from "../components/signup";
-import SignIn from "../components/login";
+import SignUp from "../components/Signup";
+import SignIn from "../components/Login";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store/store";
 import { createUser, login, logoutUser } from "../store/user";
 import { getProducts } from "../store/products";
 import { getCategories } from "../store/categories";
-import UserProfile from "../components/userProfile";
+import UserProfile from "../components/UserProfile";
 
 
 //import ProductsList from "../components/ProductList";

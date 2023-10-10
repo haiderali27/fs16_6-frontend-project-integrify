@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { styled } from '@mui/material/styles';
-import CartComponent from "../components/cartComponent";
+import CartComponent from "../components/CartComponent";
 
 const Div = styled('div')(({ theme }) => ({
   ...theme.typography.button,
@@ -17,7 +17,7 @@ const CartItems = () => {
   return (
     <div>
       <Div>{"Your Shopping Cart: "}</Div>;
-        
+             
         {cartItems.map(product => (
             <CartComponent key={product.product.id} product={product.product} quantity={product.quantity} />
         ))}

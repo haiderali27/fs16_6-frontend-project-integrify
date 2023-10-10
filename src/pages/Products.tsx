@@ -1,7 +1,7 @@
 import  { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import ProductsList from "../components/productList";
+import ProductsList from "../components/ProductList";
 import { AppDispatch, RootState } from "../store/store";
 
 import { filteredByCategories, sortByPrice } from "../store/products";
