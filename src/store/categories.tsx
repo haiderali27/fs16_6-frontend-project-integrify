@@ -12,7 +12,7 @@ export const getCategories = createAsyncThunk(
 const categoriesSlice = createSlice({
     name: "categories",
     initialState: {
-        list: [],
+        catList: [],
         isLoading: false,
     },
     reducers: {
@@ -23,7 +23,7 @@ const categoriesSlice = createSlice({
             state.isLoading = true;
         });
         builder.addCase(getCategories.fulfilled, (state, { payload }) => {
-            state.list = payload;
+            state.catList = payload;
             state.isLoading = false;
         });
         builder.addCase(getCategories.rejected, (state) => {

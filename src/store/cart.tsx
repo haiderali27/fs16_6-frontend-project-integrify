@@ -12,7 +12,7 @@ interface CartState {
 
 
 const initialState: CartState = {
-    items: JSON.parse(localStorage.getItem('cart') || '[]'),
+    items: JSON.parse(sessionStorage.getItem('cart') || '[]'),
 };
 
 const cartSlice = createSlice({
@@ -30,7 +30,7 @@ const cartSlice = createSlice({
             }
 
             // Save cart state to localStorage
-            localStorage.setItem('cart', JSON.stringify(state.items));
+            sessionStorage.setItem('cart', JSON.stringify(state.items));
         },
         removeFromCart: (state, action: PayloadAction<number>) => {
             const productIdToRemove = action.payload;
@@ -45,7 +45,7 @@ const cartSlice = createSlice({
 
 
             // Save cart state to localStorage
-            localStorage.setItem('cart', JSON.stringify(state.items));
+            sessionStorage.setItem('cart', JSON.stringify(state.items));
         },
     },
 });

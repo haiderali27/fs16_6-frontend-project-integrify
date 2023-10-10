@@ -1,4 +1,3 @@
-import React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -7,6 +6,9 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import SearchIcon from '@mui/icons-material/Search';
 import { Box } from '@mui/material';
 import InputBase from '@mui/material/InputBase';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../store/store';
+import { logoutUser } from '../store/user';
 
 
 const toolbarStyle = {
@@ -15,6 +17,10 @@ const toolbarStyle = {
 }
 
 const Header = () => {
+  const dispatch: AppDispatch = useDispatch();
+  
+  const { user: { currentUser, loggedIn } } = useSelector((state: RootState) => state);
+  let signButtonValue:string = loggedIn===true?"Sign Out":"Sign In";
   return (
     
     <AppBar position="static">
@@ -28,6 +34,12 @@ const Header = () => {
       /> <SearchIcon />
       </Box>
       <Button color="inherit" onClick={()=>{
+          window.location.href = "/";
+        }}>
+            Home
+        </Button>
+      
+      <Button color="inherit" onClick={()=>{
           window.location.href = "/products";
         }}>
             Products
@@ -37,6 +49,27 @@ const Header = () => {
         }}>
             <ShoppingCartIcon style={{ marginRight: '5px' }} />
             Cart
+        </Button>
+        {loggedIn && 
+        <Button color="inherit" onClick={()=>{
+          if(loggedIn){
+            window.location.href = "/userProfile";
+          }
+          
+        }}>
+            UserProfile
+        </Button>
+        }
+        <Button color="inherit" onClick={()=>{
+          if(loggedIn){
+            dispatch(logoutUser())
+            window.location.href = "/signin";
+          }else{
+            window.location.href = "/signin";
+          }
+          
+        }}>
+            {signButtonValue}
         </Button>
       </Toolbar>
     </AppBar>

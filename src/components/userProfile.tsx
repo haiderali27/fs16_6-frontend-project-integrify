@@ -1,0 +1,33 @@
+import { AppDispatch, RootState } from '../store/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { Avatar, Paper, Typography, makeStyles } from '@mui/material';
+
+
+
+const UserProfile = () => {
+    const dispatch: AppDispatch = useDispatch();
+    const { user: { currentUser } } = useSelector((state: RootState) => state);
+   const user_ = currentUser.currentUser;
+   if (!user_) {
+        return <div>User not found.</div>; 
+      }
+  return (
+    <Paper elevation={3}>
+      <Avatar alt={user_.name} src={user_.avatar} />
+      <Typography variant="h4" gutterBottom>
+        {user_.name}
+      </Typography>
+      <Typography variant="subtitle1" gutterBottom>
+        Email: {user_.email}
+      </Typography>
+      <Typography variant="subtitle1" gutterBottom>
+        Role: {user_.role}
+      </Typography>
+      <Typography variant="subtitle1" gutterBottom>
+        ID: {user_.id}
+      </Typography>
+    </Paper>
+  );
+};
+
+export default UserProfile;

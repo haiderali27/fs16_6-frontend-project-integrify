@@ -1,37 +1,38 @@
-
 import {
     BrowserRouter as Router,
     Route,
     Routes,
   } from "react-router-dom";
-  import { useEffect } from "react";
-  import { AppDispatch } from "../store/store";
-  import { getCategories } from "../store/categories";
-  import products, { getProducts } from '../store/products';
-  import { useDispatch, useSelector } from "react-redux";
-  import { RootState } from "../store/store";
+import  { useEffect } from "react";
 
-  import { useParams } from "react-router-dom";
-
-  import Header from '../components/header'
+import Header from '../components/header'
 import Footer from "../components/footer";
-import ProductsList from "../components/productList";
-import ProductPage from "./Products";
 import ProductsPage from "./Products";
 import Product from "./Product";
 import CartItems from "./CartItems";
-
+import SignUp from "../components/signup";
+import SignIn from "../components/login";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../store/store";
+import { createUser, login, logoutUser } from "../store/user";
+import { getProducts } from "../store/products";
+import { getCategories } from "../store/categories";
+import UserProfile from "../components/userProfile";
 
 
 //import ProductsList from "../components/ProductList";
 const MainPage = () => {
-    const dispatch: AppDispatch = useDispatch();
 
-    useEffect(() => {
-      dispatch(getCategories());
-      dispatch(getProducts());
-    }, [dispatch]);
+  const dispatch: AppDispatch = useDispatch();
 
+  useEffect(() => {
+    //dispatch(createUser({email:"asd@integrify.com", name:"ASdd", password:"Integrify1234", avatar:"https://api.lorem.space/image/face?w=640&h=480&r=867"}));
+    //dispatch(login({email: "asd@integrify.com", password:"Integrify1234"}));
+    //dispatch(logoutUser())
+    dispatch(getCategories());
+    dispatch(getProducts());
+  }, [dispatch]);
+  
     return(
         <div>
         <Header />
@@ -41,8 +42,9 @@ const MainPage = () => {
         <Route path="/products/" element={<ProductsPage />}></Route>
         <Route path="/product/:id" element={<Product />}></Route>
         <Route path="/cart" element={<CartItems />} />
-        <Route path="/" element={<div />} />
-        <Route path="/" element={<div />} />
+        <Route path="/signin" element={<SignIn/>} />
+        <Route path="/signup" element={<SignUp/>} />
+        <Route path="/userProfile" element={<UserProfile />} />
         </Routes>
         </Router>
         <Footer/>
@@ -52,3 +54,4 @@ const MainPage = () => {
 }
 
 export default MainPage;
+

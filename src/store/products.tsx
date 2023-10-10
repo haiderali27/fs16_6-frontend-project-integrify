@@ -42,12 +42,17 @@ const productsSlice = createSlice({
     list: [],
     product: prod,
     filtered: [],
+    sorted: [],
     related: [],
     isLoading: false,
   },
   reducers: {
-    filteredByPrice: (state, { payload }) => {
-      state.filtered = state.list.filter(({ price }) => price < payload);
+    sortByPrice: (state, { payload }) => {
+    
+      state.sorted = state.list.filter(({ price }) => price < payload);
+    },
+    filteredByCategories: (state, { payload }) => {
+      state.filtered = state.list.filter(({ categories }) => categories === payload);
     },
   },
   extraReducers: (builder) => {
@@ -73,5 +78,7 @@ const productsSlice = createSlice({
     });
   },
 });
-export const {filteredByPrice} = productsSlice.actions
+export const { sortByPrice, filteredByCategories } = productsSlice.actions;
+
+
 export default productsSlice.reducer;

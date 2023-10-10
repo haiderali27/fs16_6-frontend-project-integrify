@@ -17,21 +17,4 @@ export interface Category {
     updatedAt?: string;
   }
 
-export enum Role{
-  customer = "customer",
-  admin = "admin"
-}
 
-export interface User{
-   id: number;
-   email: string;
-   password: string;
-   name: string;
-   role: Role;
-   avatar: string
-}
-
-export interface Cart{
-  user: User,
-  product: [Product]
-}
