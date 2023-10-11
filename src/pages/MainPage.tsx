@@ -19,6 +19,7 @@ import { getCategories } from "../store/categories";
 import UserProfile from "../components/UserProfile";
 import CreateProduct from "../components/CreateProduct";
 import UpdateProduct from "../components/UpdateProduct";
+import ProductsList from "../components/Products";
 //import { createUser, login, logoutUser } from "../store/user";
 
 
@@ -41,7 +42,7 @@ const MainPage = () => {
         <Header />
         <Router>
         <Routes>
-        <Route path="/" element={<div />} />
+        <Route path="/" element={<ProductsPage />} />
         <Route path="/products/" element={<ProductsPage />}></Route>
         <Route path="/product/:id" element={<Product />}></Route>
         <Route path="/cart" element={<CartItems />} />

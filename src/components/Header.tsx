@@ -3,9 +3,6 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import SearchIcon from '@mui/icons-material/Search';
-import { Box } from '@mui/material';
-import InputBase from '@mui/material/InputBase';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store/store';
 import { logoutUser } from '../store/user';
@@ -26,13 +23,6 @@ const Header = () => {
     <AppBar position="static">
       <Toolbar style={toolbarStyle}>
         <Typography  variant="h6">Real API Store</Typography>
-        <Box>
-            <InputBase
-        sx={{ ml: 1, flex: 1 }}
-        placeholder="Search"
-        onChange={()=>{}}
-      /> <SearchIcon />
-      </Box>
       <Button color="inherit" onClick={()=>{
           window.location.href = "/";
         }}>
