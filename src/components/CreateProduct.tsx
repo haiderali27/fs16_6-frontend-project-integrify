@@ -2,7 +2,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -15,18 +14,6 @@ import { AppDispatch, RootState } from '../store/store';
 import { useEffect, useState } from 'react';
 import { createdProductInitialize, createProduct } from '../store/products';
 
-function Copyright(props: any) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
@@ -82,7 +69,7 @@ const CreateProduct = () => {
       if(!loggedIn){
           window.location.href = "/";
       }
-      if(createdProduct.id!=0){
+      if(JSON.stringify(createdProduct)!=='{}'){
         window.location.href="/product/"+createdProduct.id
         return
       }
@@ -104,7 +91,7 @@ const CreateProduct = () => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign up
+            Create Product
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>

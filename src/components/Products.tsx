@@ -46,12 +46,12 @@ const ProductsList = ({ products = [initialStateProduct]}) => {
     <div style={divStyle}>
         <Grid container>
       
-            {list.map(({ id, images, title, description, price, category: { name } }: Product) => (
+            {list.map(({ id, images, title, description, price, category }: Product) => (
                 <Link to={`/product/${id}`} key={id}>
                     <Card key={id} style={{ width: '400px', height: '400px', margin: '10px' }}>
                         <CardHeader
                             title={title}
-                            subheader={name}
+                            subheader={category && category.name}
                         />
                     <CardContent>
                         <Typography variant="h2" component="h1">
@@ -62,9 +62,9 @@ const ProductsList = ({ products = [initialStateProduct]}) => {
                         </Typography>
                     </CardContent>
                     <ImageList>
-                        {images.map((image, index) => (
+                        {images!==undefined && images.map((image, index) => (
                         <ImageListItem key={index}>
-                        <img src={image} alt={`Image ${index}`} />
+                        <img src={image} alt={image} />
                         </ImageListItem>
                         ))}
                     </ImageList> 

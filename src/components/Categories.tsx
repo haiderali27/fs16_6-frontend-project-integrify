@@ -1,29 +1,26 @@
 import { Container, MenuItem, Select } from "@mui/material";
-import { Category } from "../types/types";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store/store";
-import { filteredByCategories } from "../store/products";
+import { getProducts, getProductsByCategory } from "../store/products";
 import { useEffect, useState } from "react";
 
 const CategoryList = ({ categories = []}) =>{
     const dispatch: AppDispatch = useDispatch();
 
    const list = categories;
-  const [selectedOption, setSelectedOption] = useState('');
+  const [selectedOption, setSelectedOption] = useState(0);
 
   const handleChange = (event:any) => {
     setSelectedOption(event.target.value);
   };
   useEffect(()=>{
-    const tempList = list.filter(({id})=>id===selectedOption);
-    if(tempList.length>0){
-        dispatch(filteredByCategories(tempList[0]))
+    if(selectedOption===0){
+      dispatch(getProducts())
     }else{
-      dispatch(filteredByCategories(tempList))
-
+      dispatch(getProductsByCategory(selectedOption))
     }
         
-    },[selectedOption]);
+    },[dispatch, selectedOption]);
     return (
         <Container>
         <Select

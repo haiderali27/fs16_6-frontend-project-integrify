@@ -4,9 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import ProductsList from "../components/Products";
 import CategoryList from "../components/Categories";
 import { AppDispatch, RootState } from "../store/store";
-import {sortByPriceAsc, sortByPriceDesc, sortByPriceRange, unsortByPrice } from "../store/products";
+import {sortByPriceAsc, sortByPriceDesc, sortByPriceRange } from "../store/products";
 import { Container } from "@mui/system";
-import { InputBase, MenuItem, Select, TextField } from "@mui/material";
+import { MenuItem, Select } from "@mui/material";
 
 
 
@@ -38,8 +38,6 @@ const ProductsPage = () => {
       dispatch(sortByPriceAsc())
     }else if(selectedOption==='DESC'){
       dispatch(sortByPriceDesc())
-    }else if(selectedOption===""){
-      dispatch(unsortByPrice())
     }
 
     dispatch(sortByPriceRange(price))

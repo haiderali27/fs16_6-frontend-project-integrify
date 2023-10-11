@@ -33,14 +33,16 @@ const Product = () => {
          dispatch(refreshProductDeleted())
          window.location.href="/"
       }
-    }, [dispatch, productDeleted]);
+    }, [dispatch, searchId, productDeleted]);
 
     const handleAddToCart = () => {
-      //console.log('product: ', prod)
       dispatch(addToCart(prod));
-      //console.log('########',cartItems);
   };
+  if (!prod || !prod.images || !prod.id) {
+    return null;
+  }
   return (
+
     <div>
      <Card key={id} style={{ margin: '10px' }}>
                         <CardHeader
@@ -57,7 +59,7 @@ const Product = () => {
                     <ImageList>
                         {prod.images.map((image, index) => (
                         <ImageListItem key={index}>
-                        <img src={image} alt={`Image ${index}`} />
+                        <img src={image} alt={image}/>
                         </ImageListItem>
                         ))}
                     </ImageList>
@@ -67,6 +69,7 @@ const Product = () => {
                       window.location.href="/updateProduct/"+prod.id
                     }} variant="outlined">UpdateProduct</Button>}
                     {currentUser && currentUser.currentUser && currentUser.currentUser.role==='admin' &&  <Button onClick={()=>{
+                      if(prod.id!==undefined)
                       dispatch(deleteProduct({id:prod.id}))
                     }} variant="outlined">Delete Product</Button>}
         

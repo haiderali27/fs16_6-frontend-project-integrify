@@ -14,8 +14,10 @@ const CartComponent: React.FC<{ product: Product, quantity:number }> = ({ produc
     };
 
     const handleRemoveFromCart = () => {
-        dispatch(removeFromCart(product.id));
-    };
+        if(product.id!==undefined){
+            dispatch(removeFromCart(product.id));
+        }
+        };
 
     return (
         <div>
