@@ -11,7 +11,7 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 
 
-import  { deleteProduct, getSingleProduct, refreshProductDeleted } from "../store/products";
+import  { deleteProduct, getSingleProduct } from "../store/products";
 import { addToCart } from "../store/cart";
 
 
@@ -23,17 +23,13 @@ const Product = () => {
   const { user: { currentUser } } = useSelector((state: RootState) => state);
 
 
-  const { products:{product, productDeleted}} = useSelector((state: RootState) => state);
+  const { products:{product}} = useSelector((state: RootState) => state);
     const prod = product;
     let searchId: string = id||"";
  
     useEffect(() => {
       dispatch(getSingleProduct(searchId))
-      if(productDeleted){
-         dispatch(refreshProductDeleted())
-         window.location.href="/"
-      }
-    }, [dispatch, searchId, productDeleted]);
+    }, [dispatch, searchId]);
 
     const handleAddToCart = () => {
       dispatch(addToCart(prod));

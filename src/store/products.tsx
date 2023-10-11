@@ -68,22 +68,10 @@ const productsSlice = createSlice({
   initialState: {
     list: [initialStateProduct],
     product: initialStateProduct,
-    createdProduct: initialStateProduct,
-    productDeleted: false,
-    productUpdated: false,
     related: [],
     isLoading: false,
   },
   reducers: {
-    refreshProductUpdated:(state) =>{
-      state.productUpdated=false
-    },
-    refreshProductDeleted:(state) =>{
-      state.productDeleted=false
-    },
-    createdProductInitialize:(state) =>{
-      state.createdProduct=initialStateProduct
-    },
     sortByPriceRange: (state, {payload})=>{
       state.list = state.list.filter(({ price }) => price !== undefined && price < payload);
     },
@@ -115,8 +103,9 @@ const productsSlice = createSlice({
     builder.addCase(updateProduct.pending, (state) => {
       state.isLoading = true;
     });
-    builder.addCase(updateProduct.fulfilled, (state) => {
-      state.productUpdated=true
+    builder.addCase(updateProduct.fulfilled, (state, {payload}) => {
+      state.product=payload;
+      window.location.href = "/product/"+state.product.id;
       state.isLoading = false;
     });
     builder.addCase(updateProduct.rejected, (state) => {
@@ -126,8 +115,8 @@ const productsSlice = createSlice({
       state.isLoading = true;
     });
     builder.addCase(deleteProduct.fulfilled, (state) => {
-      state.productDeleted=true
       state.isLoading = false;
+      window.location.href = "/products";
     });
     builder.addCase(deleteProduct.rejected, (state) => {
       state.isLoading = false;
@@ -136,7 +125,8 @@ const productsSlice = createSlice({
       state.isLoading = true;
     });
     builder.addCase(createProduct.fulfilled, (state, { payload }) => {
-      state.createdProduct = payload;
+      state.product=payload;
+      window.location.href = "/product/"+state.product.id;
       state.isLoading = false;
     });
     builder.addCase(createProduct.rejected, (state) => {
@@ -164,7 +154,7 @@ const productsSlice = createSlice({
     });
   },
 });
-export const {refreshProductUpdated, refreshProductDeleted, createdProductInitialize, sortByPriceRange, sortByPriceAsc, sortByPriceDesc,filteredByCategories } = productsSlice.actions;
+export const {sortByPriceRange, sortByPriceAsc, sortByPriceDesc,filteredByCategories } = productsSlice.actions;
 
 
 export default productsSlice.reducer;

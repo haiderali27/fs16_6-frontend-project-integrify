@@ -2,7 +2,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -13,23 +12,11 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store/store';
 import { useEffect, useState } from 'react';
-import { createdProductInitialize, createProduct, refreshProductUpdated, updateProduct } from '../store/products';
+import { updateProduct } from '../store/products';
 import { useParams } from 'react-router';
 
-function Copyright(props: any) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
 
-// TODO remove, this demo shouldn't need to reset the theme.
+
 const defaultTheme = createTheme();
 
 const UpdateProduct = () => {
@@ -45,7 +32,7 @@ const UpdateProduct = () => {
     const dispatch: AppDispatch = useDispatch();
     const { user: { currentUser, loggedIn } } = useSelector((state: RootState) => state);
 
-    const { products:{product, productUpdated}} = useSelector((state: RootState) => state);
+    const { products:{product}} = useSelector((state: RootState) => state);
   
     const {id}  = useParams();
     let updateId: number = Number(id)||0;
@@ -84,15 +71,12 @@ const UpdateProduct = () => {
       }
     useEffect(() => {
 
-      if(!loggedIn&&currentUser && currentUser.currentUser && currentUser.currentUser.role!='admin'){
+      if(!loggedIn&&currentUser && currentUser.currentUser && currentUser.currentUser.role!=='admin'){
           window.location.href = "/";
       }
-      if(productUpdated){
-        window.location.href = "/product/"+updateId;
-        dispatch(refreshProductUpdated())
-      }
+ 
       
-    }, [dispatch, currentUser, loggedIn, productUpdated, product]);
+    }, [dispatch, currentUser, loggedIn, product]);
     return(
         <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">

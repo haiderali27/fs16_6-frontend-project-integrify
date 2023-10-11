@@ -12,7 +12,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store/store';
 import { useEffect, useState } from 'react';
-import { createdProductInitialize, createProduct } from '../store/products';
+import { createProduct } from '../store/products';
 
 
 // TODO remove, this demo shouldn't need to reset the theme.
@@ -31,7 +31,6 @@ const CreateProduct = () => {
     const dispatch: AppDispatch = useDispatch();
 
     const { user: { currentUser, loggedIn } } = useSelector((state: RootState) => state);
-    const { products: { createdProduct } } = useSelector((state: RootState) => state);
 
     const [title, setTitle] = useState("");
     const [price, setPrice] = useState(-1);
@@ -69,12 +68,8 @@ const CreateProduct = () => {
       if(!loggedIn){
           window.location.href = "/";
       }
-      if(JSON.stringify(createdProduct)!=='{}'){
-        window.location.href="/product/"+createdProduct.id
-        return
-      }
-      dispatch(createdProductInitialize())
-    }, [dispatch, currentUser, loggedIn, createdProduct]);
+  
+    }, [dispatch, currentUser, loggedIn]);
     return(
         <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
