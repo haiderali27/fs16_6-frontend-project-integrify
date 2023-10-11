@@ -23,6 +23,7 @@ const CategoryList = ({ categories = []}) =>{
     },[dispatch, selectedOption]);
     return (
         <Container>
+          Select Category:
         <Select
         value={selectedOption}
         onChange={handleChange}

@@ -63,6 +63,7 @@ const ProductsPage = () => {
     <div style={divStyleOut}>
       <div style={divStyleInner1}>
       <Container>
+            Select Price:
             <Select
             value={selectedOption}
             onChange={handlePrice}
@@ -80,6 +81,7 @@ const ProductsPage = () => {
           </Select>
         </Container>
         <Container>
+          Sort By Price:
         <Select
         value={selectedOption}
         onChange={handleChange}
