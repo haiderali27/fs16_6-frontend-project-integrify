@@ -12,10 +12,12 @@ import { red } from '@mui/material/colors';
 import AddIcon from '@mui/icons-material/Add';
 import {Product} from "../types/types";
 import { Grid } from "@mui/material";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../store/store";
 import { addToCart } from "../store/cart";
-
+import UpdateIcon from '@mui/icons-material/Update';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import { deleteProduct } from "../store/products";
 
 const divStyle = {
     overflow:'auto',
@@ -32,6 +34,7 @@ const ProductsList = ({ products = [initialStateProduct]}) => {
     
   const list = products;
   const dispatch: AppDispatch = useDispatch();
+  const { user: { currentUser } } = useSelector((state: RootState) => state);
 
   
   return (
@@ -71,8 +74,23 @@ const ProductsList = ({ products = [initialStateProduct]}) => {
                         </Link>
                         <CardActions disableSpacing>
                           <IconButton aria-label="add to favorites" onClick={()=>{dispatch(addToCart({ id, images, title, description, price, category }))}}>
-                            Add to Cart <AddIcon />
+                            <AddIcon />
                           </IconButton>
+                          {currentUser && currentUser.currentUser && currentUser.currentUser.role==='admin' &&
+                          <IconButton aria-label="add to favorites" onClick={()=>{window.location.href="/updateProduct/"+id}}>
+                            <UpdateIcon />
+                          </IconButton>
+                          }
+                          {currentUser && currentUser.currentUser && currentUser.currentUser.role==='admin' &&
+                           < IconButton aria-label="add to favorites" onClick={()=>{
+                            if(id!==undefined)
+                            dispatch(deleteProduct({id:id}))
+                            }}>
+                           <DeleteOutlineIcon />
+                         </IconButton>
+                          }
+                         
+                       
                         </CardActions>
                        
                       </Card>
