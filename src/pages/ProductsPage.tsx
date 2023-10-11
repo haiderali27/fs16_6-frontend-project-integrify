@@ -4,9 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import ProductsList from "../components/Products";
 import CategoryList from "../components/Categories";
 import { AppDispatch, RootState } from "../store/store";
-import {sortByPriceAsc, sortByPriceDesc, sortByPriceRange } from "../store/products";
+import { getProductsByPriceRange, sortByPriceAsc, sortByPriceDesc } from "../store/products";
 import { Container } from "@mui/system";
 import { MenuItem, Select } from "@mui/material";
+import { CSSProperties } from 'react';
+
 
 
 
@@ -16,36 +18,51 @@ const ProductsPage = () => {
   const dispatch: AppDispatch = useDispatch();
   const { products: { list } } = useSelector((state: RootState) => state);
   const { categories: { catList} } = useSelector((state: RootState) => state);
-  const divStyle = {
-    overflow:'auto',
+  const divStyleOut:CSSProperties = {
     color: 'blue',
     display: 'flex',
+    flexDirection: 'column',
     justifyContent: 'center'
 
   };
-  const numericalValues = Array.from({ length: 1000 }, (_, index) => index * 5 + 5);
+  const divStyleInner1:CSSProperties = {
+    color: 'blue',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+
+  };
+  const numericalValues = Array.from({ length: 50 }, (_, index) => index * 5 + 5);
 
   const [selectedOption, setSelectedOption] = useState('');
+  const [selectedOptionPriceChange, setSelectedOptionPriceChange] = useState(false);
+
   const [price, setPrice] = useState("");
   const handlePrice = (event: any) => {
+    setSelectedOptionPriceChange(true);
     setPrice(event.target.value);
+
   };
   const handleChange = (event:any) => {
     setSelectedOption(event.target.value);
   };
   useEffect(() => {
+   
     if(selectedOption==='ASC'){
       dispatch(sortByPriceAsc())
     }else if(selectedOption==='DESC'){
       dispatch(sortByPriceDesc())
     }
-
-    dispatch(sortByPriceRange(price))
-  }, [dispatch, selectedOption, price]);
+    if(selectedOptionPriceChange){
+      //dispatch(sortByPriceRange(price))
+      dispatch(getProductsByPriceRange(Number(price)))
+      setSelectedOptionPriceChange(false)
+    }
+  }, [dispatch, selectedOption, selectedOptionPriceChange, price]);
   return (
-    <div style={divStyle}>
-
-        <Container>
+    <div style={divStyleOut}>
+      <div style={divStyleInner1}>
+      <Container>
             <Select
             value={selectedOption}
             onChange={handlePrice}
@@ -81,8 +98,12 @@ const ProductsPage = () => {
       </Select>
       </Container>
       <CategoryList categories={catList} />
+      </div>
+      <div>
       <ProductsList products={list}/>
+      </div>
     </div>
+    
   );
 };
 

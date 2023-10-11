@@ -18,6 +18,15 @@ export const getProductsByCategory = createAsyncThunk(
   }
 );
 
+export const getProductsByPriceRange = createAsyncThunk(
+  "products/getProductsByPriceRange",
+  async (price:number) => {
+    const response = await axios(`${BASE_URL}/products/?price_min=1&price_max=${price}`);
+    return response.data;
+  }
+);
+
+
 
 export const getSingleProduct = createAsyncThunk(
   'product/getSingleProduct', 
@@ -71,16 +80,16 @@ const productsSlice = createSlice({
     related: [],
     isLoading: false,
   },
-  reducers: {
+  reducers: {    
     sortByPriceRange: (state, {payload})=>{
       state.list = state.list.filter(({ price }) => price !== undefined && price < payload);
     },
 
     sortByPriceAsc: (state) => {
-      state.list = state.list.slice().sort((a, b) =>  (a.price ?? Number.MAX_VALUE) - (b.price ?? Number.MAX_VALUE));
+      state.list = state.list.sort((a, b) =>  (a.price ?? Number.MAX_VALUE) - (b.price ?? Number.MAX_VALUE));
     },
     sortByPriceDesc: (state) => {
-      state.list = state.list.slice().sort((a, b) => (b.price ?? Number.MAX_VALUE) - (a.price ?? Number.MAX_VALUE));
+      state.list = state.list.sort((a, b) => (b.price ?? Number.MAX_VALUE) - (a.price ?? Number.MAX_VALUE));
     },
     filteredByCategories: (state, { payload }) => {
       if(payload.length!==0){
@@ -89,7 +98,17 @@ const productsSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(getProductsByPriceRange.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(getProductsByPriceRange.fulfilled, (state, { payload }) => {
+      state.list = payload;
 
+      state.isLoading = false;
+    });
+    builder.addCase(getProductsByPriceRange.rejected, (state) => {
+      state.isLoading = false;
+    });
     builder.addCase(getProductsByCategory.pending, (state) => {
       state.isLoading = true;
     });
