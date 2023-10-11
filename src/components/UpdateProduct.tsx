@@ -12,7 +12,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store/store';
 import { useEffect, useState } from 'react';
-import { updateProduct } from '../store/products';
+import { getSingleProduct, updateProduct } from '../store/products';
 import { useParams } from 'react-router';
 
 
@@ -64,19 +64,30 @@ const UpdateProduct = () => {
     
     const onSubmit =() => {
       dispatch(updateProduct({id:updateId, title:title, price:price, description: description , categoryId: categoryId, images:images}))
-      //window.location.href="/product/"+createdProduct.id
     }
+
     if(!loggedIn){
       window.location.href = "/";
       }
     useEffect(() => {
-
+      if(JSON.stringify(product)==='{}'){
+        dispatch(getSingleProduct(updateId+""))
+      }
       if(!loggedIn&&currentUser && currentUser.currentUser && currentUser.currentUser.role!=='admin'){
           window.location.href = "/";
       }
- 
-      
+      if (product && product.images && product.id && product.price && product.category && product.title && product.description) {
+        setTitle(product.title)
+        setPrice(product.price)
+        setCategoryId(product.category.id)
+        setDescription(product.description)
+        setImages(product.images)
+      }
     }, [dispatch, currentUser, loggedIn, product]);
+
+    if (!product || !product.images || !product.id || !product.price || !product.category ||!product.title) {
+      return null;
+    }
     return(
         <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
@@ -102,10 +113,10 @@ const UpdateProduct = () => {
                   required
                   fullWidth
                   id="title"
-                  label="title"
                   name="title"
                   autoComplete="Title"
                   onChange={handleTitle}
+                  value={title}
                 />
               </Grid>  
               <Grid item xs={12}>
@@ -113,10 +124,10 @@ const UpdateProduct = () => {
                   required
                   fullWidth
                   id="price"
-                  label="Price $$"
                   name="price"
                   autoComplete="price"
                   onChange={handlePrice}
+                  value={price}
 
                 />
               </Grid>
@@ -125,11 +136,11 @@ const UpdateProduct = () => {
                   required
                   fullWidth
                   name="category"
-                  label="category"
                   type="category"
                   id="category"
                   autoComplete="New Category"
                   onChange={handleCategory}
+                  value={categoryId}
 
                 />
               </Grid>
@@ -138,11 +149,11 @@ const UpdateProduct = () => {
                   required
                   fullWidth
                   name="description"
-                  label="description"
                   type="description"
                   id="description"
                   autoComplete="description"
                   onChange={handleDescription}
+                  value={description}
 
                 />
               </Grid>
@@ -152,11 +163,11 @@ const UpdateProduct = () => {
                   required
                   fullWidth
                   name="images"
-                  label="image1,images2"
                   type="images"
                   id="images"
                   autoComplete="description"
                   onChange={handleImages}
+                  value={ images}
                   
                 />
                 </ Grid>

@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { BASE_URL } from "../constants/constants";
 import axios from "axios";
+import { User } from "../types/types";
 
 
 
@@ -70,21 +71,6 @@ interface isAvail{
     isAvailable: boolean
 }
 
-interface UserSchema{
-    id: number;
-    email: string;
-    password?: string;
-    name: string;
-    role: "customer"|"admin";
-    avatar: string
- }
-
- interface User{
-    currentUser: null | UserSchema;
- }
-
-
-
 interface tokens{
   access_token: string,
   refresh_token: string
@@ -121,7 +107,7 @@ const userSlice = createSlice({
         
     },
     extraReducers: (builder) => {
-        builder.addCase(createUser.pending, (state, { }) => {
+        builder.addCase(createUser.pending, (state) => {
             state.isLoading = true;
         });
         builder.addCase(createUser.fulfilled, (state, { payload }) => {
@@ -132,7 +118,7 @@ const userSlice = createSlice({
         builder.addCase(createUser.rejected, (state) => {
             state.isLoading = false;
         });
-        builder.addCase(login.pending, (state, { }) => {
+        builder.addCase(login.pending, (state) => {
             state.isLoading = true;
         });
         builder.addCase(login.fulfilled, (state, { payload }) => {

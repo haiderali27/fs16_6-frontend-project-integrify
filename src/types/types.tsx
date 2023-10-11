@@ -18,3 +18,15 @@ export interface Category {
   }
 
 
+export interface UserSchema{
+    id: number;
+    email: string;
+    password?: string;
+    name: string;
+    role: "customer"|"admin";
+    avatar: string
+ }
+
+ export interface User{
+    currentUser: null | UserSchema;
+ }
