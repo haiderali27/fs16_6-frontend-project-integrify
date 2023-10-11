@@ -30,3 +30,11 @@ export interface UserSchema{
  export interface User{
     currentUser: null | UserSchema;
  }
+ export interface CartItem {
+  product: Product;
+  quantity: number;
+}
+
+export interface CartState {
+  items: CartItem[];
+}

@@ -83,7 +83,7 @@ const UpdateProduct = () => {
         setDescription(product.description)
         setImages(product.images)
       }
-    }, [dispatch, currentUser, loggedIn, product]);
+    }, [dispatch, currentUser, loggedIn, product, updateId]);
 
     if (!product || !product.images || !product.id || !product.price || !product.category ||!product.title) {
       return null;

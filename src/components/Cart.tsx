@@ -1,10 +1,11 @@
 import { useDispatch } from 'react-redux';
 
-import { addToCart, removeFromCart } from '../store/cart'
+import { addToCart, removeFromCart, deletefromCart} from '../store/cart'
 import { Product } from '../types/types';
 import { Button, Card, CardContent, CardHeader, Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
 const CartComponent: React.FC<{ product: Product, quantity:number }> = ({ product, quantity }) => {
     const dispatch = useDispatch();
@@ -18,6 +19,11 @@ const CartComponent: React.FC<{ product: Product, quantity:number }> = ({ produc
             dispatch(removeFromCart(product.id));
         }
         };
+        const handleDeleteFromCart = () => {
+            if(product.id!==undefined){
+                dispatch(deletefromCart(product.id));
+            }
+            };
 
     return (
         <div>
@@ -35,9 +41,11 @@ const CartComponent: React.FC<{ product: Product, quantity:number }> = ({ produc
                     </CardContent>
                     <Button variant="outlined" onClick={handleAddToCart}><AddIcon /></Button>
                     <Button variant="outlined" onClick={handleRemoveFromCart}><RemoveIcon /></Button>
+                    <Button variant="outlined" onClick={handleDeleteFromCart}><DeleteOutlineIcon /></Button>
             </Card>  
         </div>
     );
 };
 
 export default CartComponent;
+

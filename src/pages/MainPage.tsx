@@ -19,7 +19,6 @@ import { getCategories } from "../store/categories";
 import UserProfile from "../components/UserProfile";
 import CreateProduct from "../components/CreateProduct";
 import UpdateProduct from "../components/UpdateProduct";
-import ProductsList from "../components/Products";
 //import { createUser, login, logoutUser } from "../store/user";
 
 

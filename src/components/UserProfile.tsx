@@ -1,11 +1,10 @@
-import { AppDispatch, RootState } from '../store/store';
-import { useDispatch, useSelector } from 'react-redux';
-import { Avatar, Paper, Typography, makeStyles } from '@mui/material';
+import {  RootState } from '../store/store';
+import {  useSelector } from 'react-redux';
+import { Avatar, Paper, Typography } from '@mui/material';
 
 
 
 const UserProfile = () => {
-    const dispatch: AppDispatch = useDispatch();
     const { user: { currentUser } } = useSelector((state: RootState) => state);
    const user_ = currentUser.currentUser;
    if (!user_) {
