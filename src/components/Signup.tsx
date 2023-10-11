@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store/store';
 import { useEffect, useState } from 'react';
 import { createUser } from '../store/user';
+import { MenuItem, Select } from '@mui/material';
 
 function Copyright(props: any) {
   return (
@@ -46,7 +47,7 @@ export default function SignUp() {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [avatar, setAvatar] = useState("");
-
+  const [selectedOption, setSelectedOption] = useState('customer');
   const handleName = (event: React.ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value);
   };
@@ -60,8 +61,11 @@ export default function SignUp() {
     setAvatar(event.target.value);
   };
   const onSubmit =() => {
-    dispatch(createUser({email:email, name:name, password:password, avatar:avatar}))
+    dispatch(createUser({email:email, name:name, password:password, avatar:avatar, role:selectedOption}))
   }
+  const handleChange = (event:any) => {
+    setSelectedOption(event.target.value);
+  };
   if(loggedIn){
     window.location.href = "/";
     }
@@ -141,6 +145,23 @@ export default function SignUp() {
                 />
               </Grid>
             </Grid>
+              <Container>
+              <Select
+              value={selectedOption}
+              onChange={handleChange}
+              label="Select an option">
+              <MenuItem value="">
+                <em>Select an option</em>
+              </MenuItem>
+                <MenuItem key="admin" value="admin">
+                  Admin
+                </MenuItem>
+                <MenuItem key="customer" value="customer">
+                  Customer
+                </MenuItem>
+              
+            </Select>
+                  </Container>
             <Button
               type="submit"
               fullWidth

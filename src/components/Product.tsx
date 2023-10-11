@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store/store";
@@ -11,7 +11,7 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 
 
-import  { getSingleProduct } from "../store/products";
+import  { deleteProduct, getSingleProduct, refreshProductDeleted } from "../store/products";
 import { addToCart } from "../store/cart";
 
 
@@ -19,17 +19,21 @@ import { addToCart } from "../store/cart";
 
 const Product = () => {
   const {id}  = useParams();
-  const dispatch = useDispatch<AppDispatch>();
-  const cartItems = useSelector((state: RootState) => state.cart.items);
+  const dispatch: AppDispatch = useDispatch();
+  const { user: { currentUser } } = useSelector((state: RootState) => state);
 
 
-  const { products:  product  } = useSelector((state: RootState) => state);
-    const prod = product.product;
+  const { products:{product, productDeleted}} = useSelector((state: RootState) => state);
+    const prod = product;
     let searchId: string = id||"";
-
+ 
     useEffect(() => {
-      dispatch(getSingleProduct(searchId));
-    }, [dispatch]);
+      dispatch(getSingleProduct(searchId))
+      if(productDeleted){
+         dispatch(refreshProductDeleted())
+         window.location.href="/"
+      }
+    }, [dispatch, productDeleted]);
 
     const handleAddToCart = () => {
       //console.log('product: ', prod)
@@ -59,6 +63,13 @@ const Product = () => {
                     </ImageList>
                     </Card>
                     <Button onClick={handleAddToCart} variant="outlined">Add To Cart</Button>
+                    {currentUser && currentUser.currentUser && currentUser.currentUser.role==='admin' &&  <Button onClick={()=>{
+                      window.location.href="/updateProduct/"+prod.id
+                    }} variant="outlined">UpdateProduct</Button>}
+                    {currentUser && currentUser.currentUser && currentUser.currentUser.role==='admin' &&  <Button onClick={()=>{
+                      dispatch(deleteProduct({id:prod.id}))
+                    }} variant="outlined">Delete Product</Button>}
+        
     </div>
   );
 };

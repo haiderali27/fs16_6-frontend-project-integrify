@@ -44,9 +44,6 @@ const ProductsList = ({ products = [initialStateProduct]}) => {
     
     <>
     <div style={divStyle}>
-    
-
-      
         <Grid container>
       
             {list.map(({ id, images, title, description, price, category: { name } }: Product) => (

@@ -50,6 +50,17 @@ const Header = () => {
             <ShoppingCartIcon style={{ marginRight: '5px' }} />
             Cart
         </Button>
+
+        {loggedIn && 
+        <Button color="inherit" onClick={()=>{
+          if(loggedIn){
+            window.location.href = "/createProduct";
+          }
+          
+        }}>
+            CreateProduct
+        </Button>
+        }
         {loggedIn && 
         <Button color="inherit" onClick={()=>{
           if(loggedIn){

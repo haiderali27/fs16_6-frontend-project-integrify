@@ -117,6 +117,9 @@ export default function SignIn() {
             >
               Sign In
             </Button>
+            <Link href="/signup">
+              Do not  have Account? Click here to Register
+            </Link>
           </Box>
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />

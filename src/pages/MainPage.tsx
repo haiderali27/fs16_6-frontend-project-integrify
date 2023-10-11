@@ -17,6 +17,8 @@ import { AppDispatch, RootState } from "../store/store";
 import { getProducts } from "../store/products";
 import { getCategories } from "../store/categories";
 import UserProfile from "../components/UserProfile";
+import CreateProduct from "../components/CreateProduct";
+import UpdateProduct from "../components/UpdateProduct";
 //import { createUser, login, logoutUser } from "../store/user";
 
 
@@ -24,7 +26,7 @@ import UserProfile from "../components/UserProfile";
 const MainPage = () => {
 
   const dispatch: AppDispatch = useDispatch();
-  const { user: {loggedIn } } = useSelector((state: RootState) => state);
+  const { user: {currentUser, loggedIn } } = useSelector((state: RootState) => state);
 
   useEffect(() => {
     //dispatch(createUser({email:"asd@integrify.com", name:"ASdd", password:"Integrify1234", avatar:"https://api.lorem.space/image/face?w=640&h=480&r=867"}));
@@ -45,7 +47,9 @@ const MainPage = () => {
         <Route path="/cart" element={<CartItems />} />
         <Route path="/signin" element={<SignIn/>} />
         <Route path="/signup" element={<SignUp/>} />
+        {loggedIn && <Route path="/createProduct" element={<CreateProduct/>} />}
         {loggedIn && <Route path="/userProfile" element={<UserProfile />} />}
+        {currentUser && currentUser.currentUser && currentUser.currentUser.role==='admin' && <Route path="/updateProduct/:id" element={<UpdateProduct />} />}
         </Routes>
         </Router>
         <Footer/>
