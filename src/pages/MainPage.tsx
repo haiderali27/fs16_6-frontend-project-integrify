@@ -33,7 +33,7 @@ const MainPage = () => {
     //dispatch(login({email: "asd@integrify.com", password:"Integrify1234"}));
     //dispatch(logoutUser())
     dispatch(getCategories());
-    dispatch(getProducts());
+    dispatch(getProducts(0));
   }, [dispatch]);
   
     return(

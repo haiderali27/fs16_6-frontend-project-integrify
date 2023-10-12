@@ -15,7 +15,7 @@ const CategoryList = ({ categories = []}) =>{
   };
   useEffect(()=>{
     if(selectedOption===0){
-      dispatch(getProducts())
+      dispatch(getProducts(0))
     }else{
       dispatch(getProductsByCategory(selectedOption))
     }

@@ -5,7 +5,7 @@ import ProductsList from "../components/Products";
 import CategoryList from "../components/Categories";
 import { AppDispatch, RootState } from "../store/store";
 import { getProducts, getProductsByPriceRange, getProductsByTitle, sortByPriceAsc, sortByPriceDesc } from "../store/products";
-import { IconButton, MenuItem, Select, TextField } from "@mui/material";
+import { IconButton, MenuItem, Pagination, Select, Stack, TextField } from "@mui/material";
 import { CSSProperties } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 
@@ -31,13 +31,23 @@ const ProductsPage = () => {
     marginTop:'100px'
 
   };
+  const divStyleInner2:CSSProperties = {
+    color: 'blue',
+    display: 'flex',
+    flexDirection: 'row',
+    alignContent:'flex-end',
+    justifyContent: 'space-around',
+    marginTop:'100px'
+
+  };
   const [selectedOption, setSelectedOption] = useState('0');
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(Number.MAX_VALUE);
   const [searchPriceClicked, setSearchPriceClicked] = useState(false);
   const [prodTitle, setProdTitle] = useState('');
-
+  const [offset, setOffset] = useState(0)
   const [searchTitleClicked, setSearchTitleClicked] = useState(false);
+  const [offsetChanged, setOffsetChanged] = useState(false);
 
   
   const handleMinPrice = (event: any) => {
@@ -53,11 +63,16 @@ const ProductsPage = () => {
     }else if(selectedOption==='DESC'){
       dispatch(sortByPriceDesc())
     }else{
-      dispatch(getProducts())
+      dispatch(getProducts(offset))
     }
   };
   const handleProdTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setProdTitle(event.target.value);
+  };
+  const handlePaginationChange = (event:any, value:any) => {
+    setOffset(value)
+    setOffsetChanged(true)
+    //console.log(`Changed to page ${value}`);
   };
   useEffect(() => {
     if(searchPriceClicked){
@@ -69,7 +84,11 @@ const ProductsPage = () => {
       dispatch(getProductsByTitle(prodTitle))
       setSearchTitleClicked(false)
     }
-  }, [dispatch, minPrice, maxPrice, searchPriceClicked, searchTitleClicked, prodTitle]);
+    if(offsetChanged){
+      setOffsetChanged(false)
+      dispatch(getProducts(offset))
+    }
+  }, [dispatch, minPrice, maxPrice, searchPriceClicked, searchTitleClicked, prodTitle, offset, offsetChanged]);
   return (
   
     <div style={divStyleOut}>
@@ -135,6 +154,13 @@ const ProductsPage = () => {
       
       <CategoryList categories={catList} />
       </div>
+
+      <div style={divStyleInner2}>
+      <Stack spacing={2}>
+      <Pagination count={10} variant="outlined" shape="rounded" onChange={handlePaginationChange} />
+      </Stack>
+      </div>
+
       <div>
        
       <ProductsList products={list}/>

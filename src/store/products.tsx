@@ -4,8 +4,8 @@ import axios from "axios";
 import { Product } from "../types/types";
 export const getProducts = createAsyncThunk(
   "products/getProducts",
-  async () => {
-    const response = await axios(`${BASE_URL}/products`);
+  async (offset:number) => {
+    const response = await axios(`${BASE_URL}/products?offset=${offset}&limit=12`);
     return response.data;
   }
 );
