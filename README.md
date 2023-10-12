@@ -15,23 +15,42 @@
 ├── package.json
 ├── README.md
 ├── src
-|  ├── App.tsx
-|  ├── brewery.tsx
-|  ├── hooks.tsx
-|  ├── index.tsx
+|  ├── components/*.tsx
+|  ├── constants/constants.ts
+|  ├── pages/*.tsx
+|  ├── servers/*.tsx
+|  ├── shared/*.tsx
+|  ├── store/*.tsx
+|  ├── test
+|         ├──data/*.ts
+|         ├──servers/*.tsx  
+|         └──store/*.test.ts  
+|  ├── types 
 |  ├── index.css
-|  ├── interfaces.tsx
-|  └── main.tsx
+|  ├── setUpTest.ts
+|  ├── index.tsx
+|  └── App.tsx
+|
+├── package.json
+├── README.md
 └── tsconfig.json
 ```
 
 
 ## Assignment Tasks
-Read the README.md of the main repository that this repository is forked from. Complete the tasks mentioned there. 
+- [x] Create at lease 4 pages (can be more if you want): Page for all products, product page, profile page (only available if user logins), and cart page (cart page could be a page or a modal)
+- [x] Create Redux store for following features:
+product reducer: get all products, find a single products, filter products by categories, sort products by price. Create, update and delete a product (enable update & delete features only for admin of the webapp)
+user reducer: register and login
+cart reducer: add product to cart, remove products, update products's quantity in cart
+- [x] When adding routers to your application, programatically set certain routes to be private. For example, route to user profile page should not be accessible if user has not logged in.
+- [x] Deploy the application and rewrite README file.
+- [] Implement unit testing for the reducers
+
 
 
 ## Deployed URL
-
+https://6527e7189ae8bc000861a5fc--majestic-kitten-e0fcda.netlify.app/
 
 ## Instruction to start the project
 
