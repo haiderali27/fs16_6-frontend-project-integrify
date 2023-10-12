@@ -1,6 +1,6 @@
 import { UserSchema } from "../../types/types";
 
-const userData:UserSchema[]=[
+const userData=[
     {
         email: "integrifyadmin@gmail.com",
         password: "Integrify1234",

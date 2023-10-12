@@ -59,7 +59,6 @@ export const createUser = createAsyncThunk(
             },
           });
           sessionStorage.setItem("user", JSON.stringify(response.data));
-          console.log('#############', response)
           sessionStorage.setItem("loggedIn", 'true');
 
           
@@ -94,6 +93,7 @@ const userSlice = createSlice({
         tokens:initialTokens,
         loggedIn:initialLoggedState,
         isLoading: false,
+        error: {},
     },
     reducers: {
         logoutUser: (state) => {
@@ -111,23 +111,25 @@ const userSlice = createSlice({
             state.isLoading = true;
         });
         builder.addCase(createUser.fulfilled, (state, { payload }) => {
-            state.currentUser = payload;
+            state.currentUser.currentUser = payload;
             state.loggedIn = true;
             state.isLoading = false;
         });
         builder.addCase(createUser.rejected, (state) => {
             state.isLoading = false;
+            state.error = "Register Failed";
         });
         builder.addCase(login.pending, (state) => {
             state.isLoading = true;
         });
         builder.addCase(login.fulfilled, (state, { payload }) => {
-            state.currentUser = payload;
+            state.currentUser.currentUser = payload;
             state.loggedIn = true;
             state.isLoading = false;
         });
-        builder.addCase(login.rejected, (state) => {
+        builder.addCase(login.rejected, (state, {payload}) => {
             state.isLoading = false;
+            state.error = "Login Failed";
         });
     }
 });
