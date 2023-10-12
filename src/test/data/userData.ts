@@ -2,7 +2,7 @@ import { UserSchema } from "../../types/types";
 
 const userData=[
     {
-        email: "integrifyadmin@gmail.com",
+        email: "integriftyadminuser@integrify.com",
         password: "Integrify1234",
         name: "Integrify Admin",
         role: "admin",

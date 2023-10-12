@@ -7,7 +7,7 @@ import { User } from "../types/types";
 
 export const createUser = createAsyncThunk(
     'users/createUser', 
-    async (userData:{name: string, email:string, password: string, avatar: string, role:string}) => {
+    async (userData:{name: string, email:string, password: string, avatar: string}) => {
     const exists = await axios.post(`${BASE_URL}/users/is-available`, JSON.stringify({email: userData.email}), {
             headers: {
               'Content-Type': 'application/json',

@@ -40,7 +40,7 @@ describe('Test authReducer async actions', () => {
 
   test('Should Register with correct details', async () => {
     await store.dispatch(
-      createUser({ email: 'integrifyadmin1@gmail.com', password: 'Integrify1234' , avatar:"https://api.lorem.space/image/face?w=640&h=480&r=867", name:"Integrify User", role:"admin"}),
+      createUser({ email: 'integrifyadmin1@gmail.com', password: 'Integrify1234' , avatar:"https://api.lorem.space/image/face?w=640&h=480&r=867", name:"Integrify User"}),
     );
     expect(store.getState().user.currentUser.currentUser?.email).toBe(
       'integrifyadmin1@gmail.com',
@@ -50,7 +50,7 @@ describe('Test authReducer async actions', () => {
 
   test('Should not Register with wrong details', async () => {
     await store.dispatch(
-      createUser({ email: 'integrifyadmin1@gmail.com', password: 'Integrify1234' , avatar:"", name:"Integrify User", role:"admin"}),
+      createUser({ email: 'integrifyadmin1@gmail.com', password: 'Integrify1234' , avatar:"", name:"Integrify User"}),
     );
     expect(store.getState().user.error).toBe(
       'Register Failed',

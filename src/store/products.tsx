@@ -20,8 +20,16 @@ export const getProductsByCategory = createAsyncThunk(
 
 export const getProductsByPriceRange = createAsyncThunk(
   "products/getProductsByPriceRange",
-  async (price:number) => {
-    const response = await axios(`${BASE_URL}/products/?price_min=1&price_max=${price}`);
+  async (priceRange:{min_price:number, max_price:number}) => {
+    const response = await axios(`${BASE_URL}/products/?price_min=${priceRange.min_price}&price_max=${priceRange.max_price}`);
+    return response.data;
+  }
+);
+
+export const getProductsByTitle = createAsyncThunk(
+  "products/getProductsByTitle",
+  async (title:string) => {
+    const response = await axios(`${BASE_URL}/products/?title=${title}`);
     return response.data;
   }
 );
@@ -98,6 +106,17 @@ const productsSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(getProductsByTitle.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(getProductsByTitle.fulfilled, (state, { payload }) => {
+      state.list = payload;
+      state.isLoading = false;
+    });
+    builder.addCase(getProductsByTitle.rejected, (state) => {
+      state.isLoading = false;
+    });
+
     builder.addCase(getProductsByPriceRange.pending, (state) => {
       state.isLoading = true;
     });

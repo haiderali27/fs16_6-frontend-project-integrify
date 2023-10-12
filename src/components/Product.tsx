@@ -40,7 +40,7 @@ const Product = () => {
   return (
 
     <div>
-     <Card key={id} style={{ margin: '10px' }}>
+     <Card key={id} style={{ margin: '90px' }}>
                         <CardHeader
                             title={prod.title}
                         />
@@ -59,7 +59,6 @@ const Product = () => {
                         </ImageListItem>
                         ))}
                     </ImageList>
-                    </Card>
                     <Button onClick={handleAddToCart} variant="outlined">Add To Cart</Button>
                     {currentUser && currentUser.currentUser && currentUser.currentUser.role==='admin' &&  <Button onClick={()=>{
                       window.location.href="/updateProduct/"+prod.id
@@ -68,7 +67,7 @@ const Product = () => {
                       if(prod.id!==undefined)
                       dispatch(deleteProduct({id:prod.id}))
                     }} variant="outlined">Delete Product</Button>}
-        
+                    </Card>              
     </div>
   );
 };

@@ -4,9 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import ProductsList from "../components/Products";
 import CategoryList from "../components/Categories";
 import { AppDispatch, RootState } from "../store/store";
-import { getProductsByPriceRange, sortByPriceAsc, sortByPriceDesc } from "../store/products";
-import { Container, MenuItem, Select } from "@mui/material";
+import { getProductsByPriceRange, getProductsByTitle, sortByPriceAsc, sortByPriceDesc } from "../store/products";
+import { IconButton, MenuItem, Select, TextField } from "@mui/material";
 import { CSSProperties } from 'react';
+import SearchIcon from '@mui/icons-material/Search';
 
 
 
@@ -25,67 +26,101 @@ const ProductsPage = () => {
     color: 'blue',
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    alignContent:'flex-end',
+    justifyContent: 'space-around',
+    marginTop:'100px'
 
   };
-  const numericalValues = Array.from({ length: 50 }, (_, index) => index * 5 + 5);
-
   const [selectedOption, setSelectedOption] = useState('');
-  const [selectedOptionPriceChange, setSelectedOptionPriceChange] = useState(false);
+  const [minPrice, setMinPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(Number.MAX_VALUE);
+  const [searchPriceClicked, setSearchPriceClicked] = useState(false);
+  const [prodTitle, setProdTitle] = useState('');
 
-  const [price, setPrice] = useState("");
-  const handlePrice = (event: any) => {
-    setSelectedOptionPriceChange(true);
-    setPrice(event.target.value);
+  const [searchTitleClicked, setSearchTitleClicked] = useState(false);
 
+  
+  const handleMinPrice = (event: any) => {
+    setMinPrice(Number(event.target.value));
+  };
+  const handleMaxPrice = (event: any) => {
+    setMaxPrice(Number(event.target.value));
   };
   const handleChange = (event:any) => {
     setSelectedOption(event.target.value);
-  };
-  useEffect(() => {
-   
     if(selectedOption==='ASC'){
       dispatch(sortByPriceAsc())
     }else if(selectedOption==='DESC'){
       dispatch(sortByPriceDesc())
     }
-    if(selectedOptionPriceChange){
+  };
+  const handleProdTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setProdTitle(event.target.value);
+  };
+  useEffect(() => {
+    if(searchPriceClicked){
       //dispatch(sortByPriceRange(price))
-      dispatch(getProductsByPriceRange(Number(price)))
-      setSelectedOptionPriceChange(false)
+      dispatch(getProductsByPriceRange({min_price: minPrice, max_price: maxPrice}))
+      setSearchPriceClicked(false);
     }
-  }, [dispatch, selectedOption, selectedOptionPriceChange, price]);
+    if(searchTitleClicked){
+      dispatch(getProductsByTitle(prodTitle))
+      setSearchTitleClicked(false)
+    }
+  }, [dispatch, minPrice, maxPrice, searchPriceClicked, searchTitleClicked, prodTitle]);
   return (
+  
     <div style={divStyleOut}>
-      <div style={divStyleInner1}>
-      <Container>
-            Select Price:
-            <Select
-            value={selectedOption}
-            onChange={handlePrice}
-            label="Select an option"
-          >
-            <MenuItem value="10000000">
-              <em>Select an option</em>
-            </MenuItem>
-            {numericalValues.map(value => (
-          <MenuItem key={value} value={value}>
-            {value}
-          </MenuItem>
-        ))}
-            
-          </Select>
-        </Container>
-        <Container>
-          Sort By Price:
+      <div style={divStyleInner1}> 
+      <div>
+      <TextField
+          id="outlined-number"
+          onChange={handleMinPrice}
+          label="Min Price"
+          type="number"
+          InputLabelProps={{
+            shrink: true,
+          }}
+          sx={{ width: '100px' }}
+        />
+         <TextField
+          id="outlined-number"
+          onChange={handleMaxPrice}
+          label="Max Price"
+          type="number"
+          InputLabelProps={{
+            shrink: true,
+          }}
+          sx={{ width: '100px' }}
+        />
+        <IconButton aria-label="cart" onClick={()=>{
+          setSearchPriceClicked(true);
+        }}> 
+        <SearchIcon />
+        </IconButton>
+        </div>
+        <div>
+        <TextField
+          id="outlined-search" type="search"
+          label="Product Title"
+          defaultValue="Some Product"
+          onChange={handleProdTitle}
+        />
+        <IconButton aria-label="cart" onClick={()=>{
+          setSearchTitleClicked(true);
+        }}> 
+        <SearchIcon />
+        </IconButton>
+        </div>
+          
         <Select
         value={selectedOption}
         onChange={handleChange}
-        label="Select an option"
       >
-        <MenuItem value="">
-          <em>Select an option</em>
-        </MenuItem>
+
+          <MenuItem key='' value='' selected>
+            Sort Products
+          </MenuItem>    
           <MenuItem key="ASC" value="ASC">
             ASC
           </MenuItem>
@@ -94,10 +129,12 @@ const ProductsPage = () => {
           </MenuItem>
          
       </Select>
-      </Container>
+     
+      
       <CategoryList categories={catList} />
       </div>
       <div>
+       
       <ProductsList products={list}/>
       </div>
     </div>

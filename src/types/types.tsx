@@ -37,4 +37,5 @@ export interface UserSchema{
 
 export interface CartState {
   items: CartItem[];
+  totalQuantity:Number
 }

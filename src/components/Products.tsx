@@ -4,10 +4,8 @@ import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
-import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
 
 import AddIcon from '@mui/icons-material/Add';
 import {Product} from "../types/types";
@@ -41,19 +39,14 @@ const ProductsList = ({ products = [initialStateProduct]}) => {
     
     <>
     <div style={divStyle}>
-        <Grid container>
+        <Grid container spacing={2} justifyContent="center" marginTop='50px'>
       
             {list.map(({ id, images, title, description, price, category }: Product) => (
               images!==undefined&&
                 
-                    <Card key={id} sx={{ maxWidth: 345 }}>
+                    <Card key={id} sx={{ width: 345, marginBottom: 10, marginRight:10, marginLeft:10 }}>
                     <Link to={`/product/${id}`} key={id}>
                     <CardHeader
-                    avatar={
-                                  <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                                    image={images[0]}
-                                  </Avatar>
-                              }
                           title={title}
                           subheader={category?.name}
                         />
@@ -64,8 +57,8 @@ const ProductsList = ({ products = [initialStateProduct]}) => {
                           alt="Paella dish"
                         />
                         <CardContent>
-                        <Typography variant="body2" color="text.secondary">
-                           Price: {price}
+                        <Typography variant="h5" color="text.secondary">
+                           {price} $
                           </Typography>
                           <Typography variant="body2" color="text.secondary">
                            {description}

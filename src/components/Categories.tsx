@@ -1,4 +1,4 @@
-import { Container, MenuItem, Select } from "@mui/material";
+import {  MenuItem, Select } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store/store";
 import { getProducts, getProductsByCategory } from "../store/products";
@@ -22,15 +22,13 @@ const CategoryList = ({ categories = []}) =>{
         
     },[dispatch, selectedOption]);
     return (
-        <Container>
-          Select Category:
         <Select
         value={selectedOption}
         onChange={handleChange}
         label="Select an option"
       >
-        <MenuItem value="">
-          <em>Select an option</em>
+        <MenuItem key="0" value="0" >
+          Select Category
         </MenuItem>
         {list.map(({ id, name }) => (
           <MenuItem key={id} value={id}>
@@ -38,7 +36,6 @@ const CategoryList = ({ categories = []}) =>{
           </MenuItem>
         ))}
       </Select>
-      </Container>
     );
 
 }
