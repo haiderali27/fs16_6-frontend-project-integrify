@@ -5,12 +5,8 @@ import ProductsList from "../components/Products";
 import CategoryList from "../components/Categories";
 import { AppDispatch, RootState } from "../store/store";
 import { getProductsByPriceRange, sortByPriceAsc, sortByPriceDesc } from "../store/products";
-import { Container } from "@mui/system";
-import { MenuItem, Select } from "@mui/material";
+import { Container, MenuItem, Select } from "@mui/material";
 import { CSSProperties } from 'react';
-
-
-
 
 
 
