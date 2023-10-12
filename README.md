@@ -50,7 +50,7 @@ cart reducer: add product to cart, remove products, update products's quantity i
 
 
 ## Deployed URL
-https://6527efa0340982000826ed6f--majestic-kitten-e0fcda.netlify.app/
+https://6527fd739943a30008941c91--majestic-kitten-e0fcda.netlify.app/
 
 ## Instruction to start the project
 
