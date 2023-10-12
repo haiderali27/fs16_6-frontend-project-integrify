@@ -52,7 +52,6 @@ export const createUser = createAsyncThunk(
 
         let tokens: tokens = tokenResponse.data;
         sessionStorage.setItem("tokens", JSON.stringify(tokenResponse.data)); 
-
           const response = await axios.get(`${BASE_URL}/auth/profile`, {
             headers: {
               'Authorization': `Bearer ${tokens.access_token}`,
