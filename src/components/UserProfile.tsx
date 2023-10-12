@@ -11,7 +11,7 @@ const UserProfile = () => {
         return <div>User not found.</div>; 
       }
   return (
-    <Paper elevation={3}>
+    <Paper elevation={3} style={{margin:"100px"}}>
       <Avatar alt={user_.name} src={user_.avatar} />
       <Typography variant="h4" gutterBottom>
         {user_.name}

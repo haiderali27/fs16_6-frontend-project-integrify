@@ -1,13 +1,19 @@
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../store/store';
+
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../store/store';
-import { logoutUser } from '../store/user';
 import { Badge, BadgeProps, IconButton, styled } from '@mui/material';
+import HomeIcon from '@mui/icons-material/Home';
+import LoginIcon from '@mui/icons-material/Login';
+import LogoutIcon from '@mui/icons-material/Logout';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import CreateIcon from '@mui/icons-material/Create';
 
+
+import { logoutUser } from '../store/user';
 const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
   '& .MuiBadge-badge': {
     right: -3,
@@ -27,20 +33,23 @@ const Header = () => {
   const { user: {loggedIn } } = useSelector((state: RootState) => state);
   const { cart: {totalQuantity } } = useSelector((state: RootState) => state);
 
-  let signButtonValue:string = loggedIn===true?"Sign Out":"Sign In";
+  let signButtonValue: any = loggedIn===true?<LogoutIcon />:<LoginIcon />;
  
   return (
     
     <AppBar position="fixed">
       <Toolbar style={toolbarStyle}>
+        <div>
         <Typography  variant="h6">Real API Store</Typography>
-      <Button color="inherit" onClick={()=>{
+        </div>
+        <div>
+        <IconButton aria-label="Home" onClick={()=>{
           window.location.href = "/";
         }}>
-            Home
-        </Button>
+            <HomeIcon />
+        </IconButton>
       
-      <IconButton aria-label="cart" onClick={()=>{
+      <IconButton aria-label="Cart" onClick={()=>{
           window.location.href = "/cart";
         }}> 
         <StyledBadge badgeContent={totalQuantity.toString()} color="secondary">
@@ -49,26 +58,26 @@ const Header = () => {
         </IconButton>
 
         {loggedIn && 
-        <Button color="inherit" onClick={()=>{
+        <IconButton aria-label="Create Product" onClick={()=>{
           if(loggedIn){
             window.location.href = "/createProduct";
           }
           
         }}>
-            CreateProduct
-        </Button>
+            <CreateIcon />
+        </IconButton>
         }
         {loggedIn && 
-        <Button color="inherit" onClick={()=>{
+        <IconButton aria-label="User Profile"  onClick={()=>{
           if(loggedIn){
             window.location.href = "/userProfile";
           }
           
         }}>
-            UserProfile
-        </Button>
+            <AccountBoxIcon />
+        </IconButton>
         }
-        <Button color="inherit" onClick={()=>{
+        <IconButton color="inherit" onClick={()=>{
           if(loggedIn){
             dispatch(logoutUser())
             window.location.href = "/signin";
@@ -78,7 +87,8 @@ const Header = () => {
           
         }}>
             {signButtonValue}
-        </Button>
+        </IconButton>
+        </div>
       </Toolbar>
     </AppBar>
   );

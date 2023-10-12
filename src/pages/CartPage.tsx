@@ -1,27 +1,29 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
-import { styled } from '@mui/material/styles';
 import CartComponent from "../components/Cart";
-
-const Div = styled('div')(({ theme }) => ({
-  ...theme.typography.button,
-  backgroundColor: theme.palette.background.paper,
-  padding: theme.spacing(1),
-}));
+import { CSSProperties } from "styled-components";
+import { Grid } from "@mui/material";
 
 
 
+
+const divStyle:CSSProperties = {
+  display: 'flex',
+  margin:'100px',
+  justifyContent:'space-around'
+
+};
 
 const CartItems = () => {
   const cartItems = useSelector((state: RootState) => state.cart.items);
   return (
-    <div>
-      <Div>{"Your Shopping Cart: "}</Div>;
-             
+    
+    <div style={divStyle}>   
+     <Grid container spacing={2} justifyContent="center" marginTop='50px'>      
         {cartItems.map(product => (
             <CartComponent key={product.product.id} product={product.product} quantity={product.quantity} />
         ))}
-  
+    </Grid>
     </div>
   );
 };
