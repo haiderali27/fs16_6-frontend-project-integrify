@@ -40,12 +40,7 @@ const Header = () => {
             Home
         </Button>
       
-      <Button color="inherit" onClick={()=>{
-          window.location.href = "/products";
-        }}>
-            Products
-        </Button>
-        <IconButton aria-label="cart" onClick={()=>{
+      <IconButton aria-label="cart" onClick={()=>{
           window.location.href = "/cart";
         }}> 
         <StyledBadge badgeContent={totalQuantity.toString()} color="secondary">

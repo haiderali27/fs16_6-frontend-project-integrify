@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ProductsList from "../components/Products";
 import CategoryList from "../components/Categories";
 import { AppDispatch, RootState } from "../store/store";
-import { getProductsByPriceRange, getProductsByTitle, sortByPriceAsc, sortByPriceDesc } from "../store/products";
+import { getProducts, getProductsByPriceRange, getProductsByTitle, sortByPriceAsc, sortByPriceDesc } from "../store/products";
 import { IconButton, MenuItem, Select, TextField } from "@mui/material";
 import { CSSProperties } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
@@ -31,7 +31,7 @@ const ProductsPage = () => {
     marginTop:'100px'
 
   };
-  const [selectedOption, setSelectedOption] = useState('');
+  const [selectedOption, setSelectedOption] = useState('0');
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(Number.MAX_VALUE);
   const [searchPriceClicked, setSearchPriceClicked] = useState(false);
@@ -52,6 +52,8 @@ const ProductsPage = () => {
       dispatch(sortByPriceAsc())
     }else if(selectedOption==='DESC'){
       dispatch(sortByPriceDesc())
+    }else{
+      dispatch(getProducts())
     }
   };
   const handleProdTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -116,9 +118,9 @@ const ProductsPage = () => {
         <Select
         value={selectedOption}
         onChange={handleChange}
-      >
+          >
 
-          <MenuItem key='' value='' selected>
+          <MenuItem key='0' value='0' >
             Sort Products
           </MenuItem>    
           <MenuItem key="ASC" value="ASC">
