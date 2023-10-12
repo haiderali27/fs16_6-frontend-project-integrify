@@ -1,4 +1,4 @@
-# Brewery Assignment
+# Front-end Project
 
 - [Project structure](#structure)
 - [Assignment Tasks](#assignment-tasks)
@@ -45,7 +45,7 @@ user reducer: register and login
 cart reducer: add product to cart, remove products, update products's quantity in cart
 - [x] When adding routers to your application, programatically set certain routes to be private. For example, route to user profile page should not be accessible if user has not logged in.
 - [x] Deploy the application and rewrite README file.
-- [] Implement unit testing for the reducers
+- [ ] Implement unit testing for the reducers
 
 
 
