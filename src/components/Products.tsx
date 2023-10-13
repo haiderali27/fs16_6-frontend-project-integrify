@@ -6,16 +6,19 @@ import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
+import { Slide } from 'react-slideshow-image';
+import 'react-slideshow-image/dist/styles.css'
 
 import AddIcon from '@mui/icons-material/Add';
 import {Product} from "../types/types";
-import { Grid } from "@mui/material";
+import { Grid, ImageListItem } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store/store";
 import { addToCart } from "../store/cart";
 import UpdateIcon from '@mui/icons-material/Update';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { deleteProduct } from "../store/products";
+
 
 const divStyle = {
     overflow:'auto',
@@ -50,12 +53,22 @@ const ProductsList = ({ products = [initialStateProduct]}) => {
                           title={title}
                           subheader={category?.name}
                         />
-                        <CardMedia
-                          component="img"
-                          height="194"
-                          image={images[0]}
-                          alt="Paella dish"
-                        />
+                     </Link>
+                        <CardMedia>
+                        <Slide>
+                        {images.map((slideImage, index)=> (
+                          <div key={index}>
+                         
+                            <div style={{ ...divStyle, 'backgroundImage': `${slideImage})` }}>
+                            <ImageListItem key={index}>
+                            <img src={slideImage} alt={slideImage}/>
+                            </ImageListItem>
+                            </div>
+                          </div>
+                        ))} 
+                        </Slide>
+
+                        </CardMedia>
                         <CardContent>
                         <Typography variant="h5" color="text.secondary">
                            {price} $
@@ -64,7 +77,7 @@ const ProductsList = ({ products = [initialStateProduct]}) => {
                            {description}
                           </Typography>
                         </CardContent>
-                        </Link>
+                       
                         <CardActions disableSpacing>
                           <IconButton aria-label="add to favorites" onClick={()=>{dispatch(addToCart({ id, images, title, description, price, category }))}}>
                             <AddIcon />

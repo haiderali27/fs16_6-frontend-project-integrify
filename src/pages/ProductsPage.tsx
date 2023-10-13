@@ -5,9 +5,10 @@ import ProductsList from "../components/Products";
 import CategoryList from "../components/Categories";
 import { AppDispatch, RootState } from "../store/store";
 import { getProducts, getProductsByPriceRange, getProductsByTitle, sortByPriceAsc, sortByPriceDesc } from "../store/products";
-import { IconButton, MenuItem, Pagination, Select, Stack, TextField } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, IconButton, MenuItem, Pagination, Select, Stack, TextField, Typography } from "@mui/material";
 import { CSSProperties } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 
 
@@ -37,7 +38,16 @@ const ProductsPage = () => {
     flexDirection: 'row',
     alignContent:'flex-end',
     justifyContent: 'space-around',
-    marginTop:'100px'
+    marginBottom:'100px'
+
+  };
+  const divStyleInner3:CSSProperties = {
+    color: 'blue',
+    display: 'flex',
+    flexDirection: 'column',
+    alignContent:'flex-start',
+    justifyContent: 'space-between',
+    margin:'10px'
 
   };
   const [selectedOption, setSelectedOption] = useState('0');
@@ -91,79 +101,83 @@ const ProductsPage = () => {
   }, [dispatch, minPrice, maxPrice, searchPriceClicked, searchTitleClicked, prodTitle, offset, offsetChanged]);
   return (
   
-    <div style={divStyleOut}>
-      <div style={divStyleInner1}> 
-      <div>
-      <TextField
-          id="outlined-number"
-          onChange={handleMinPrice}
-          label="Min Price"
-          type="number"
-          InputLabelProps={{
-            shrink: true,
-          }}
-          sx={{ width: '100px' }}
-        />
-         <TextField
-          id="outlined-number"
-          onChange={handleMaxPrice}
-          label="Max Price"
-          type="number"
-          InputLabelProps={{
-            shrink: true,
-          }}
-          sx={{ width: '100px' }}
-        />
-        <IconButton aria-label="cart" onClick={()=>{
-          setSearchPriceClicked(true);
-        }}> 
-        <SearchIcon />
-        </IconButton>
-        </div>
-        <div>
-        <TextField
-          id="outlined-search" type="search"
-          label="Product Title"
-          defaultValue="Some Product"
-          onChange={handleProdTitle}
-        />
-        <IconButton aria-label="cart" onClick={()=>{
-          setSearchTitleClicked(true);
-        }}> 
-        <SearchIcon />
-        </IconButton>
-        </div>
+   <div style={divStyleOut}>
+      <div style={divStyleInner1}>
+      <Accordion>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel2a-content"
+          id="panel2a-header"
+        >
+            <Typography>Search Filters</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+        <div style={divStyleInner3}>
+            <div >
+                <TextField
+                  id="outlined-number"
+                  onChange={handleMinPrice}
+                  label="Min Price"
+                  type="number"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  sx={{ width: '100px' }} />
+                <TextField
+                  id="outlined-number"
+                  onChange={handleMaxPrice}
+                  label="Max Price"
+                  type="number"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  sx={{ width: '100px' }} />
+                <IconButton aria-label="cart" onClick={() => {
+                  setSearchPriceClicked(true);
+                } }>
+                  <SearchIcon />
+                </IconButton>
+          </div>
+          <div>
+            <TextField
+              id="outlined-search" type="search"
+              label="Product Title"
+              defaultValue="Some Product"
+              onChange={handleProdTitle} />
+            <IconButton aria-label="cart" onClick={() => {
+              setSearchTitleClicked(true);
+            } }>
+              <SearchIcon />
+            </IconButton>
+          </div>
+
+          <Select
+            value={selectedOption}
+            onChange={handleChange}>
+
+              <MenuItem key='0' value='0'>
+                Sort Products
+              </MenuItem>
+              <MenuItem key="ASC" value="ASC">
+                ASC
+              </MenuItem>
+              <MenuItem key="DESC" value="DESC">
+                DESC
+              </MenuItem>
+
+          </Select>
+          <CategoryList categories={catList} />
+      </div>
           
-        <Select
-        value={selectedOption}
-        onChange={handleChange}
-          >
+        </AccordionDetails>
+      </Accordion>
 
-          <MenuItem key='0' value='0' >
-            Sort Products
-          </MenuItem>    
-          <MenuItem key="ASC" value="ASC">
-            ASC
-          </MenuItem>
-          <MenuItem key="DESC" value="DESC">
-            DESC
-          </MenuItem>
-         
-      </Select>
-     
-      
-      <CategoryList categories={catList} />
-      </div>
-
-      <div style={divStyleInner2}>
-      <Stack spacing={2}>
-      <Pagination count={10} variant="outlined" shape="rounded" onChange={handlePaginationChange} />
-      </Stack>
-      </div>
-
-      <div>
-       
-      <ProductsList products={list}/>
+    
+    </div>
+    <ProductsList products={list} /><div style={divStyleInner2}>
+        <Stack spacing={2}>
+          <Pagination count={10} variant="outlined" shape="rounded" onChange={handlePaginationChange} />
+        </Stack>
       </div>
     </div>
     

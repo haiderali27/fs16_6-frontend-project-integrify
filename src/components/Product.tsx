@@ -4,11 +4,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store/store";
 
 
-import {Button, ImageList, ImageListItem } from '@mui/material';
+
+import ImageGallery from "react-image-gallery";
+// import stylesheet if you're not already using CSS @import
+import "react-image-gallery/styles/css/image-gallery.css";
+
+
+import {Button} from '@mui/material';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
+
+
 
 
 import  { deleteProduct, getSingleProduct } from "../store/products";
@@ -21,6 +29,15 @@ const Product = () => {
   const {id}  = useParams();
   const dispatch: AppDispatch = useDispatch();
   const { user: { currentUser } } = useSelector((state: RootState) => state);
+
+  
+  const divStyle = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin:'20px'
+  }
+  
 
 
   const { products:{product}} = useSelector((state: RootState) => state);
@@ -37,6 +54,14 @@ const Product = () => {
   if (!prod || !prod.images || !prod.id) {
     return null;
   }
+
+  const objectImage = prod.images.map(image => {
+    return {
+        original: image,
+        thumbnail: image
+    };
+});
+
   return (
 
     <div>
@@ -51,14 +76,10 @@ const Product = () => {
                         <Typography variant="body2" color="text.secondary">
                             {prod.description}
                         </Typography>
-                    </CardContent>
-                    <ImageList>
-                        {prod.images.map((image, index) => (
-                        <ImageListItem key={index}>
-                        <img src={image} alt={image}/>
-                        </ImageListItem>
-                        ))}
-                    </ImageList>
+                    </CardContent>         
+                    <ImageGallery items={objectImage} /> 
+              <div style={divStyle}>
+              
                     <Button onClick={handleAddToCart} variant="outlined">Add To Cart</Button>
                     {currentUser && currentUser.currentUser && currentUser.currentUser.role==='admin' &&  <Button onClick={()=>{
                       window.location.href="/updateProduct/"+prod.id
@@ -67,6 +88,8 @@ const Product = () => {
                       if(prod.id!==undefined)
                       dispatch(deleteProduct({id:prod.id}))
                     }} variant="outlined">Delete Product</Button>}
+
+              </div>
                     </Card>              
     </div>
   );
