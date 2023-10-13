@@ -38,8 +38,6 @@ const Product = () => {
     margin:'20px'
   }
   
-
-
   const { products:{product}} = useSelector((state: RootState) => state);
     const prod = product;
     let searchId: string = id||"";
