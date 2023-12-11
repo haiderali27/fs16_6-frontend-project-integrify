@@ -37,7 +37,7 @@ const ProductsList = ({ products = [initialStateProduct]}) => {
   const dispatch: AppDispatch = useDispatch();
   const { user: { currentUser } } = useSelector((state: RootState) => state);
 
-  
+
   return (
     
     <>
