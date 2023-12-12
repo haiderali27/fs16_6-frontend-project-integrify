@@ -6,10 +6,17 @@ import productData from '../data/productData';
 
 const handlers=[
     
-    rest.get(`${BASE_URL}/products?offset=0&limit=10`, async (req, res, ctx) => {
+    rest.get(`${BASE_URL}/products`, async (req, res, ctx) => {
+        const title = req.url.searchParams.get('title');
+        if(title){
+          const foundProducts = productData.filter((p) => p.title === title);
+          if (foundProducts) {
+            return res(ctx.json(foundProducts));
+            }
+        }
         return res(ctx.json(productData));       
       }),
-
+     
       rest.get(`${BASE_URL}/products/:id`, async (req, res, ctx) => {
         const { id } = req.params;
         const foundProduct = productData.find((p) => p.id === Number(id));
@@ -17,15 +24,6 @@ const handlers=[
             return res(ctx.json(foundProduct));
             }
          }),
-
-        rest.get(`${BASE_URL}/products/?title=:title`, async (req, res, ctx) => {
-        const  {title}  = req.params;
-        const foundProducts = productData.filter((p) => p.title === title);
-        if (foundProducts) {
-            return res(ctx.json(foundProducts));
-            }
-            }),
-
 ]
 
 const productServer = setupServer(...handlers);
