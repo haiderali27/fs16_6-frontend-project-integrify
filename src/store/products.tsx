@@ -46,7 +46,7 @@ export const getSingleProduct = createAsyncThunk(
 
 export const createProduct = createAsyncThunk(
   'product/createProduct', 
-  async (userData:{title: string, price:number, description: string, categoryId: number, images:string[]}) => {
+  async (userData:{title: string, price:number, description: string, categoryId: any, images:string[]}) => {
   const response = await axios.post(`${BASE_URL}/products/`, JSON.stringify(userData), {
           headers: {
             'Content-Type': 'application/json',
@@ -58,7 +58,7 @@ export const createProduct = createAsyncThunk(
 
 export const updateProduct = createAsyncThunk(
   'product/updateProduct', 
-  async (userData:{id:number, title: string, price:number, description: string, categoryId: number, images:string[]}) => {
+  async (userData:{id:number, title: string, price:number, description: string, categoryId: any, images:string[]}) => {
    const response = await axios.put(`${BASE_URL}/products/${userData.id}`, JSON.stringify(userData), {
     headers: {
       'Content-Type': 'application/json',

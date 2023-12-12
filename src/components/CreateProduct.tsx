@@ -36,8 +36,10 @@ const CreateProduct = () => {
     const [title, setTitle] = useState("");
     const [price, setPrice] = useState(-1);
     const [description, setDescription] = useState("");
-    const [categoryId, setCategoryId] = useState(0);
+    const [categoryId, setCategoryId] = useState("0");
     const [images, setImages] = useState([""]);
+
+
     const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
       setTitle(event.target.value);
     };
@@ -49,7 +51,7 @@ const CreateProduct = () => {
     };
 
     const handleCategoryDropDown = (event: any) => {
-      setCategoryId(Number(event.target.value));
+      setCategoryId(event.target.value);
     };
     const handleImages = (event: React.ChangeEvent<HTMLInputElement>) => {
         let imageList: string[]= event.target.value.split(","); 

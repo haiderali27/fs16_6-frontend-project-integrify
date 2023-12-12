@@ -35,12 +35,12 @@ const UpdateProduct = () => {
     const { categories: { catList} } = useSelector((state: RootState) => state);
 
     const {id}  = useParams();
-    let updateId: number = Number(id)||0;
+    let updateId: any = id;
 
     const [title, setTitle] = useState("");
     const [price, setPrice] = useState(-1);
     const [description, setDescription] = useState("");
-    const [categoryId, setCategoryId] = useState(-1);
+    const [categoryId, setCategoryId] = useState("0");
     const [images, setImages] = useState([""]);
     const [initializedProd, setInitializedProd] = useState(false)
     const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -60,7 +60,7 @@ const UpdateProduct = () => {
       };
 
       const handleCategoryDropDown = (event: any) => {
-        setCategoryId(Number(event.target.value));
+        setCategoryId(event.target.value);
       };
 
     
@@ -88,14 +88,17 @@ const UpdateProduct = () => {
         setCategoryId(product.category.id)
         setDescription(product.description)
         setImages(product.images)
-        }
         setInitializedProd(true)
+        }
+        
       }
     }, [dispatch, currentUser, loggedIn, product, updateId, navigate, initializedProd]);
+    //console.log('############1', product.images, product.id, product.price, product.category, product.title)
 
     if (!product || !product.images || !product.id || !product.price || !product.category ||!product.title) {
       return null;
     }
+
     return(
         <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
