@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
@@ -32,7 +32,8 @@ const initialStateProduct: Product ={}
 
 
 const ProductsList = ({ products = [initialStateProduct]}) => {
-    
+  const navigate = useNavigate();
+
   const list = products;
   const dispatch: AppDispatch = useDispatch();
   const { user: { currentUser } } = useSelector((state: RootState) => state);
@@ -83,7 +84,8 @@ const ProductsList = ({ products = [initialStateProduct]}) => {
                             <AddIcon />
                           </IconButton>
                           {currentUser && currentUser.currentUser && currentUser.currentUser.role==='admin' &&
-                          <IconButton aria-label="add to favorites" onClick={()=>{window.location.href="/updateProduct/"+id}}>
+                          <IconButton aria-label="add to favorites" onClick={()=>{navigate('/updateProduct/'+id) //window.location.href="/updateProduct/"+id
+                         }}> 
                             <UpdateIcon />
                           </IconButton>
                           }

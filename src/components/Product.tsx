@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store/store";
 
@@ -27,6 +27,9 @@ import { addToCart } from "../store/cart";
 
 const Product = () => {
   const {id}  = useParams();
+
+  const navigate = useNavigate();
+
   const dispatch: AppDispatch = useDispatch();
   const { user: { currentUser } } = useSelector((state: RootState) => state);
 
@@ -80,7 +83,8 @@ const Product = () => {
               
                     <Button onClick={handleAddToCart} variant="outlined">Add To Cart</Button>
                     {currentUser && currentUser.currentUser && currentUser.currentUser.role==='admin' &&  <Button onClick={()=>{
-                      window.location.href="/updateProduct/"+prod.id
+                      //window.location.href="/updateProduct/"+prod.id
+                      navigate("/updateProduct/"+prod.id);
                     }} variant="outlined">UpdateProduct</Button>}
                     {currentUser && currentUser.currentUser && currentUser.currentUser.role==='admin' &&  <Button onClick={()=>{
                       if(prod.id!==undefined)
@@ -88,7 +92,8 @@ const Product = () => {
                     }} variant="outlined">Delete Product</Button>}
 
               </div>
-                    </Card>              
+                    </Card>  
+           
     </div>
   );
 };

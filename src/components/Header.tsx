@@ -11,6 +11,7 @@ import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import CreateIcon from '@mui/icons-material/Create';
+import { useNavigate } from 'react-router-dom';
 
 
 import { logoutUser } from '../store/user';
@@ -29,6 +30,8 @@ const toolbarStyle = {
 
 const Header = () => {
   const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
+
   
   const { user: {loggedIn } } = useSelector((state: RootState) => state);
   const { cart: {totalQuantity } } = useSelector((state: RootState) => state);
@@ -44,13 +47,15 @@ const Header = () => {
         </div>
         <div>
         <IconButton aria-label="Home" onClick={()=>{
-          window.location.href = "/";
+          //window.location.href = "/";
+          navigate("/");
         }}>
             <HomeIcon />
         </IconButton>
       
       <IconButton aria-label="Cart" onClick={()=>{
-          window.location.href = "/cart";
+          //window.location.href = "/cart";
+          navigate("/cart");
         }}> 
         <StyledBadge badgeContent={totalQuantity.toString()} color="secondary">
           <ShoppingCartIcon />
@@ -60,7 +65,8 @@ const Header = () => {
         {loggedIn && 
         <IconButton aria-label="Create Product" onClick={()=>{
           if(loggedIn){
-            window.location.href = "/createProduct";
+            //window.location.href = "/createProduct";
+            navigate("/createProduct");
           }
           
         }}>
@@ -70,7 +76,8 @@ const Header = () => {
         {loggedIn && 
         <IconButton aria-label="User Profile"  onClick={()=>{
           if(loggedIn){
-            window.location.href = "/userProfile";
+            //window.location.href = "/userProfile";
+            navigate("/userProfile");
           }
           
         }}>
@@ -80,9 +87,11 @@ const Header = () => {
         <IconButton color="inherit" onClick={()=>{
           if(loggedIn){
             dispatch(logoutUser())
-            window.location.href = "/signin";
+            //window.location.href = "/signin";
+            navigate("/signin");
           }else{
-            window.location.href = "/signin";
+            //window.location.href = "/signin";
+            navigate("/signin");
           }
           
         }}>

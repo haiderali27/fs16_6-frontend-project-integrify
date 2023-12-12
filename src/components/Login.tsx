@@ -7,11 +7,12 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store/store';
 import { useEffect, useState } from 'react';
 import { login } from '../store/user';
+import { useNavigate } from 'react-router-dom';
+import { Alert, Snackbar } from '@mui/material';
 
 function Copyright(props: any) {
   return (
@@ -26,23 +27,41 @@ function Copyright(props: any) {
   );
 }
 
-// TODO remove, this demo shouldn't need to reset the theme.
-const defaultTheme = createTheme();
 
 export default function SignIn() {
+  const navigate = useNavigate();
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
   };
   const dispatch: AppDispatch = useDispatch();
-  const { user: { currentUser, loggedIn } } = useSelector((state: RootState) => state);
+  const { user: { currentUser, loggedIn, logginFaled } } = useSelector((state: RootState) => state);
  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+
+
+  const validatePassword = () => {
+    if (password === '') {
+      setPasswordError('Password cannot be empty');
+    } else {
+      setPasswordError('');
+    }
+  };
+
+  const validateEmail = () => {
+    // Email validation regex
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(email)) {
+      setEmailError('Invalid email address');
+    } else {
+      setEmailError('');
+    }
+  };
  
   const handleEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -53,20 +72,51 @@ export default function SignIn() {
 
   const onSubmit =() => {
     dispatch(login({email:email, password:password}))
+    setSubmitted(true)
   }
   if(loggedIn){
-    window.location.href = "/";
+    //window.location.href = "/";
+    navigate("/");
     }
-  useEffect(() => {
+    const [submitted, setSubmitted] = useState(false);
 
+    const [loggedInFailed, setLoggedInFailed] = useState(logginFaled);
+
+    const handleCloseSnackbar = () => {
+      setLoggedInFailed(false);
+    };
+  useEffect(() => {
     if(loggedIn){
-        window.location.href = "/";
+        //window.location.href = "/";
+        navigate("/");
+        return
     }
-  }, [dispatch, currentUser, loggedIn]);
+    if (logginFaled&&submitted) {
+    
+      setLoggedInFailed(true)
+      const timer = setTimeout(() => {
+        setLoggedInFailed(false);
+      }, 3000);
+      setSubmitted(false)
+
+      // Cleanup the timer when the component unmounts or loggedInFailed changes
+      return () => clearTimeout(timer);
+    }
+    
+  }, [dispatch, currentUser, loggedIn, navigate, loggedInFailed, logginFaled, submitted]);
   
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs">
+      <Container component="main" maxWidth="xs" style={{ marginTop: '80px' }} >
+        <Snackbar
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        open={loggedInFailed}
+        autoHideDuration={3000}
+        onClose={handleCloseSnackbar}
+      >
+        <Alert onClose={handleCloseSnackbar} severity="error">
+          Login failed. Please try again.
+        </Alert>
+      </Snackbar>
         <CssBaseline />
         <Box
           sx={{
@@ -92,6 +142,9 @@ export default function SignIn() {
               name="email"
               autoComplete="email"
               onChange={handleEmail}
+              onBlur={validateEmail}
+              error={Boolean(emailError)}
+             helperText={emailError}
               autoFocus
             />
             <TextField
@@ -102,14 +155,19 @@ export default function SignIn() {
               label="Password"
               type="password"
               id="password"
-              onChange={handlePassword}
-              autoComplete="current-password"
+              autoComplete='password'
+              onInput={handlePassword}
+              onBlur={validatePassword}
+              error={Boolean(passwordError)}
+              helperText={passwordError}
+              
             />
             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              disabled={Boolean(emailError) || Boolean(passwordError)}
               onClick={onSubmit}
             >
               Sign In
@@ -121,6 +179,5 @@ export default function SignIn() {
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
-    </ThemeProvider>
   );
 }

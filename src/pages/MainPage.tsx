@@ -38,8 +38,10 @@ const MainPage = () => {
   
     return(
         <div>
-        <Header />
+       
         <Router>
+        <Header />
+        <Footer/>
         <Routes>
         <Route path="/" element={<ProductsPage />} />
         <Route path="/products/" element={<ProductsPage />}></Route>
@@ -52,7 +54,7 @@ const MainPage = () => {
         {currentUser && currentUser.currentUser && currentUser.currentUser.role==='admin' && <Route path="/updateProduct/:id" element={<UpdateProduct />} />}
         </Routes>
         </Router>
-        <Footer/>
+      
         </div>
     );
 

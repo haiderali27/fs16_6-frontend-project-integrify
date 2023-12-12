@@ -14,26 +14,26 @@ import { AppDispatch, RootState } from '../store/store';
 import { useEffect, useState } from 'react';
 import { getSingleProduct, updateProduct } from '../store/products';
 import { useParams } from 'react-router';
+import { useNavigate } from 'react-router-dom';
+import { MenuItem, Select } from '@mui/material';
 
 
 
 const defaultTheme = createTheme();
 
 const UpdateProduct = () => {
+  const navigate = useNavigate();
+
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-          title: data.get('title'),
-          price: data.get('price'),
-        });
       };
    
     const dispatch: AppDispatch = useDispatch();
     const { user: { currentUser, loggedIn } } = useSelector((state: RootState) => state);
 
     const { products:{product}} = useSelector((state: RootState) => state);
-  
+    const { categories: { catList} } = useSelector((state: RootState) => state);
+
     const {id}  = useParams();
     let updateId: number = Number(id)||0;
 
@@ -42,7 +42,7 @@ const UpdateProduct = () => {
     const [description, setDescription] = useState("");
     const [categoryId, setCategoryId] = useState(-1);
     const [images, setImages] = useState([""]);
-
+    const [initializedProd, setInitializedProd] = useState(false)
     const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
       setTitle(event.target.value);
     };
@@ -52,13 +52,15 @@ const UpdateProduct = () => {
     const handleDescription = (event: React.ChangeEvent<HTMLInputElement>) => {
         setDescription(event.target.value);
     };
-    const handleCategory = (event: React.ChangeEvent<HTMLInputElement>) => {
-      setCategoryId(Number(event.target.value));
-    };
+
     const handleImages = (event: React.ChangeEvent<HTMLInputElement>) => {
         let imageList: string[]= event.target.value.split(","); 
         imageList = imageList.map(image => image.trim());
         setImages(imageList);
+      };
+
+      const handleCategoryDropDown = (event: any) => {
+        setCategoryId(Number(event.target.value));
       };
 
     
@@ -67,23 +69,29 @@ const UpdateProduct = () => {
     }
 
     if(!loggedIn){
-      window.location.href = "/";
+      //window.location.href = "/";
+      navigate('/')
       }
     useEffect(() => {
       if(JSON.stringify(product)==='{}'){
         dispatch(getSingleProduct(updateId+""))
       }
       if(!loggedIn&&currentUser && currentUser.currentUser && currentUser.currentUser.role!=='admin'){
-          window.location.href = "/";
+          //window.location.href = "/";
+          navigate('/')
       }
+   
       if (product && product.images && product.id && product.price && product.category && product.title && product.description) {
+        if(!initializedProd){
         setTitle(product.title)
         setPrice(product.price)
         setCategoryId(product.category.id)
         setDescription(product.description)
         setImages(product.images)
+        }
+        setInitializedProd(true)
       }
-    }, [dispatch, currentUser, loggedIn, product, updateId]);
+    }, [dispatch, currentUser, loggedIn, product, updateId, navigate, initializedProd]);
 
     if (!product || !product.images || !product.id || !product.price || !product.category ||!product.title) {
       return null;
@@ -104,7 +112,7 @@ const UpdateProduct = () => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign up
+            Update Product
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
@@ -132,17 +140,20 @@ const UpdateProduct = () => {
                 />
               </Grid>
               <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="category"
-                  type="category"
-                  id="category"
-                  autoComplete="New Category"
-                  onChange={handleCategory}
-                  value={categoryId}
-
-                />
+              <Select
+              value={categoryId}
+              onChange={handleCategoryDropDown}
+            label="Select an option"
+            >
+            <MenuItem key="0" value="0" >
+              Select Category
+            </MenuItem>
+        {catList.map(({ id, name }) => (
+          <MenuItem key={id} value={id}>
+            {name}
+          </MenuItem>
+        ))}
+      </Select>
               </Grid>
               <Grid item xs={12}>
                 <TextField

@@ -92,6 +92,8 @@ const userSlice = createSlice({
         tokens:initialTokens,
         loggedIn:initialLoggedState,
         isLoading: false,
+        logginFaled: false,
+        registerFailed:false,
         error: {},
     },
     reducers: {
@@ -112,10 +114,12 @@ const userSlice = createSlice({
         builder.addCase(createUser.fulfilled, (state, { payload }) => {
             state.currentUser.currentUser = payload;
             state.loggedIn = true;
+            state.registerFailed=false
             state.isLoading = false;
         });
         builder.addCase(createUser.rejected, (state) => {
             state.isLoading = false;
+            state.registerFailed=true
             state.error = "Register Failed";
         });
         builder.addCase(login.pending, (state) => {
@@ -124,10 +128,12 @@ const userSlice = createSlice({
         builder.addCase(login.fulfilled, (state, { payload }) => {
             state.currentUser.currentUser = payload;
             state.loggedIn = true;
+            state.logginFaled=false
             state.isLoading = false;
         });
         builder.addCase(login.rejected, (state, {payload}) => {
             state.isLoading = false;
+            state.logginFaled=true
             state.error = "Login Failed";
         });
     }
