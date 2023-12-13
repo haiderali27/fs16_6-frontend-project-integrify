@@ -18,6 +18,7 @@ import { addToCart } from "../store/cart";
 import UpdateIcon from '@mui/icons-material/Update';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { deleteProduct } from "../store/products";
+import { useEffect, useState } from "react";
 
 
 const divStyle = {
@@ -36,8 +37,13 @@ const ProductsList = ({ products = [initialStateProduct]}) => {
 
   const list = products;
   const dispatch: AppDispatch = useDispatch();
-  const { user: { currentUser } } = useSelector((state: RootState) => state);
+  const { user: { currentUser, tokens } } = useSelector((state: RootState) => state);
+  const [token, setToken] = useState(tokens.tokens?.access_token)
 
+  useEffect(()=>{
+    setToken(tokens.tokens?.access_token)
+  },[tokens]
+  );
 
   return (
     
@@ -92,7 +98,7 @@ const ProductsList = ({ products = [initialStateProduct]}) => {
                           {currentUser && currentUser.currentUser && currentUser.currentUser.role==='admin' &&
                            < IconButton aria-label="add to favorites" onClick={()=>{
                             if(id!==undefined)
-                            dispatch(deleteProduct({id:id}))
+                            dispatch(deleteProduct({id:id, token:token||""}))
                             }}>
                            <DeleteOutlineIcon />
                          </IconButton>

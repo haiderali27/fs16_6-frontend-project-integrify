@@ -30,7 +30,8 @@ const UpdateProduct = () => {
       };
    
     const dispatch: AppDispatch = useDispatch();
-    const { user: { currentUser, loggedIn } } = useSelector((state: RootState) => state);
+    const { user: { currentUser, loggedIn, tokens } } = useSelector((state: RootState) => state);
+    const [token, setToken] = useState(tokens.tokens?.access_token)
 
     const { products:{product}} = useSelector((state: RootState) => state);
     const { categories: { catList} } = useSelector((state: RootState) => state);
@@ -42,6 +43,7 @@ const UpdateProduct = () => {
     const [price, setPrice] = useState(-1);
     const [description, setDescription] = useState("");
     const [categoryId, setCategoryId] = useState("0");
+
     //const [images, setImages] = useState([""]);
     const [initializedProd, setInitializedProd] = useState(false)
     const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -85,7 +87,7 @@ const UpdateProduct = () => {
 
     
     const onSubmit =() => {
-      dispatch(updateProduct({id:updateId, title:title, price:price, description: description , categoryId: categoryId, images:imageInputs}))
+      dispatch(updateProduct({id:updateId, title:title, price:price, description: description , categoryId: categoryId, images:imageInputs, token:token||""}))
     }
 
     if(!loggedIn){
@@ -93,6 +95,9 @@ const UpdateProduct = () => {
       navigate('/')
       }
     useEffect(() => {
+
+      setToken(tokens.tokens?.access_token)
+
       if(JSON.stringify(product)==='{}'){
         dispatch(getSingleProduct(updateId+""))
       }
@@ -113,7 +118,7 @@ const UpdateProduct = () => {
         }
         
       }
-    }, [dispatch, currentUser, loggedIn, product, updateId, navigate, initializedProd]);
+    }, [dispatch, currentUser, loggedIn, product, updateId, navigate, initializedProd, tokens]);
     //console.log('############1', product.images, product.id, product.price, product.category, product.title)
 
     if (!product || !product.images || !product.id || !product.price || !product.category ||!product.title) {

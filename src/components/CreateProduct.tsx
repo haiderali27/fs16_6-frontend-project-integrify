@@ -30,7 +30,7 @@ const CreateProduct = () => {
    
     const dispatch: AppDispatch = useDispatch();
 
-    const { user: { currentUser, loggedIn } } = useSelector((state: RootState) => state);
+    const { user: { currentUser, loggedIn, tokens } } = useSelector((state: RootState) => state);
     const { categories: { catList} } = useSelector((state: RootState) => state);
 
    
@@ -39,7 +39,7 @@ const CreateProduct = () => {
     const [description, setDescription] = useState("");
     const [categoryId, setCategoryId] = useState("0");
     //const [images, setImages] = useState([""]);
-
+    const [token, setToken] = useState(tokens.tokens?.access_token)
 
     const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
       setTitle(event.target.value);
@@ -80,7 +80,7 @@ const CreateProduct = () => {
 
     
     const onSubmit =() => {
-      dispatch(createProduct({title:title, price:price, description: description , categoryId: categoryId, images:imageInputs}))
+      dispatch(createProduct({title:title, price:price, description: description , categoryId: categoryId, images:imageInputs, token: token||""}))
      // navigate("/");
      // window.location.href="/product/"+createdProduct.id
     }
@@ -93,8 +93,9 @@ const CreateProduct = () => {
           //window.location.href = "/";
           navigate("/");
       }
+      setToken(tokens.tokens?.access_token)
   
-    }, [dispatch, currentUser, loggedIn, navigate]);
+    }, [dispatch, currentUser, loggedIn, navigate, tokens]);
     return(
        
       <Container component="main" maxWidth="xs">

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store/store";
@@ -31,8 +31,8 @@ const Product = () => {
   const navigate = useNavigate();
 
   const dispatch: AppDispatch = useDispatch();
-  const { user: { currentUser } } = useSelector((state: RootState) => state);
-
+  const { user: { currentUser, tokens } } = useSelector((state: RootState) => state);
+  const [token, setToken] = useState(tokens.tokens?.access_token)
   
   const divStyle = {
     display: 'flex',
@@ -47,7 +47,8 @@ const Product = () => {
  
     useEffect(() => {
       dispatch(getSingleProduct(searchId))
-    }, [dispatch, searchId]);
+      setToken(tokens.tokens?.access_token)
+    }, [dispatch, searchId, tokens]);
 
     const handleAddToCart = () => {
       dispatch(addToCart(prod));
@@ -88,7 +89,7 @@ const Product = () => {
                     }} variant="outlined">UpdateProduct</Button>}
                     {currentUser && currentUser.currentUser && currentUser.currentUser.role==='admin' &&  <Button onClick={()=>{
                       if(prod.id!==undefined)
-                      dispatch(deleteProduct({id:prod.id}))
+                      dispatch(deleteProduct({id:prod.id, token:token||""}))
                     }} variant="outlined">Delete Product</Button>}
 
               </div>

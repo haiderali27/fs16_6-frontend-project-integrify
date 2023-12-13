@@ -46,10 +46,14 @@ export const getSingleProduct = createAsyncThunk(
 
 export const createProduct = createAsyncThunk(
   'product/createProduct', 
-  async (userData:{title: string, price:number, description: string, categoryId: any, images:string[]}) => {
-  const response = await axios.post(`${BASE_URL}/products/`, JSON.stringify(userData), {
+  async (userData:{title: string, price:number, description: string, categoryId: any, images:string[], token:string}) => {
+    const { token, ...userDataWithoutToken } = userData;
+
+  const response = await axios.post(`${BASE_URL}/products/`, JSON.stringify(userDataWithoutToken), {
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+            
           },
       });  
       return response.data;
@@ -58,10 +62,13 @@ export const createProduct = createAsyncThunk(
 
 export const updateProduct = createAsyncThunk(
   'product/updateProduct', 
-  async (userData:{id:number, title: string, price:number, description: string, categoryId: any, images:string[]}) => {
-   const response = await axios.put(`${BASE_URL}/products/${userData.id}`, JSON.stringify(userData), {
+  async (userData:{id:any, title: string, price:number, description: string, categoryId: any, images:string[], token:string}) => {
+    const { token, ...userDataWithoutToken } = userData;
+
+   const response = await axios.put(`${BASE_URL}/products/${userData.id}`, JSON.stringify(userDataWithoutToken), {
     headers: {
       'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
     },
       });  
       return response.data;
@@ -71,8 +78,13 @@ export const updateProduct = createAsyncThunk(
 
 export const deleteProduct = createAsyncThunk(
   'product/deleteProduct', 
-  async (userData:{id:number}) => {
-  const response = await axios.delete(`${BASE_URL}/products/${userData.id}`);
+  async (userData:{id:any, token:string}) => {
+  const response = await axios.delete(`${BASE_URL}/products/${userData.id}`, {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${userData.token}`,
+    },
+      });
       return response.data;
     }
 );
