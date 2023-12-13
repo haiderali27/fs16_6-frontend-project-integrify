@@ -50,6 +50,11 @@ const ProductsPage = () => {
     margin:'10px'
 
   };
+
+  const divStyleInner3_fields:CSSProperties = {
+    margin:'5px'
+  };
+
   const [selectedOption, setSelectedOption] = useState('0');
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(Number.MAX_VALUE);
@@ -113,7 +118,7 @@ const ProductsPage = () => {
         </AccordionSummary>
         <AccordionDetails>
         <div style={divStyleInner3}>
-            <div >
+            <div style={divStyleInner3_fields} >
                 <TextField
                   id="outlined-number"
                   onChange={handleMinPrice}
@@ -138,7 +143,7 @@ const ProductsPage = () => {
                   <SearchIcon />
                 </IconButton>
           </div>
-          <div>
+          <div style={divStyleInner3_fields}>
             <TextField
               id="outlined-search" type="search"
               label="Product Title"
@@ -151,7 +156,7 @@ const ProductsPage = () => {
             </IconButton>
           </div>
 
-          <Select
+          <Select style={divStyleInner3_fields}
             value={selectedOption}
             onChange={handleChange}>
 

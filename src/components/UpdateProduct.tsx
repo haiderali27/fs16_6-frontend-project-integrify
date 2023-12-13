@@ -15,7 +15,8 @@ import { useEffect, useState } from 'react';
 import { getSingleProduct, updateProduct } from '../store/products';
 import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
-import { MenuItem, Select } from '@mui/material';
+import { IconButton, MenuItem, Select } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 
 
@@ -41,7 +42,7 @@ const UpdateProduct = () => {
     const [price, setPrice] = useState(-1);
     const [description, setDescription] = useState("");
     const [categoryId, setCategoryId] = useState("0");
-    const [images, setImages] = useState([""]);
+    //const [images, setImages] = useState([""]);
     const [initializedProd, setInitializedProd] = useState(false)
     const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
       setTitle(event.target.value);
@@ -53,11 +54,30 @@ const UpdateProduct = () => {
         setDescription(event.target.value);
     };
 
+    const [imageInputs, setImageInputs] = useState<string[]>(['']); // Initial state with one empty string
+
+    const handleImageInputChange = (index: number, value: string) => {
+      const updatedInputs = [...imageInputs];
+      updatedInputs[index] = value;
+      setImageInputs(updatedInputs);
+    };
+  
+    const addImageInput = () => {
+      setImageInputs([...imageInputs, '']); // Add a new empty string to the array
+    };
+  
+    const deleteImageInput = (index: number) => {
+      const updatedInputs = [...imageInputs];
+      updatedInputs.splice(index, 1); // Remove the element at the specified index
+      setImageInputs(updatedInputs);
+    };
+    /*
     const handleImages = (event: React.ChangeEvent<HTMLInputElement>) => {
         let imageList: string[]= event.target.value.split(","); 
         imageList = imageList.map(image => image.trim());
         setImages(imageList);
       };
+      */
 
       const handleCategoryDropDown = (event: any) => {
         setCategoryId(event.target.value);
@@ -65,7 +85,7 @@ const UpdateProduct = () => {
 
     
     const onSubmit =() => {
-      dispatch(updateProduct({id:updateId, title:title, price:price, description: description , categoryId: categoryId, images:images}))
+      dispatch(updateProduct({id:updateId, title:title, price:price, description: description , categoryId: categoryId, images:imageInputs}))
     }
 
     if(!loggedIn){
@@ -87,7 +107,8 @@ const UpdateProduct = () => {
         setPrice(product.price)
         setCategoryId(product.category.id)
         setDescription(product.description)
-        setImages(product.images)
+        //setImages(product.images)
+        setImageInputs(product.images)
         setInitializedProd(true)
         }
         
@@ -171,20 +192,34 @@ const UpdateProduct = () => {
 
                 />
               </Grid>
-
               <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="images"
-                  type="images"
-                  id="images"
-                  autoComplete="description"
-                  onChange={handleImages}
-                  value={ images}
-                  
-                />
-                </ Grid>
+              {imageInputs.map((image, index) => (
+              <Grid container item xs={12} spacing={1} key={index}>
+                <Grid item xs={10}>
+                  <TextField
+                    required
+                    fullWidth
+                    label={`Image ${index + 1}`}
+                    type="text"
+                    value={image}
+                    onChange={(e) => handleImageInputChange(index, e.target.value)}
+                  />
+                </Grid>
+                <Grid item xs={2}>
+                  <IconButton onClick={() => deleteImageInput(index)}>
+                    <DeleteIcon />
+                  </IconButton>
+                </Grid>
+              </Grid>
+            ))}     
+             <Grid item xs={12}>
+                <Button variant="contained" color="primary" onClick={addImageInput}>
+                  Add Image
+                </Button>
+              </Grid>               
+              </ Grid>
+
+             
             </Grid>
             <Button
               type="submit"
