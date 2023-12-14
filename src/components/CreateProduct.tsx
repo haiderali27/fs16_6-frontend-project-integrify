@@ -40,7 +40,6 @@ const CreateProduct = () => {
     const [categoryId, setCategoryId] = useState("0");
     //const [images, setImages] = useState([""]);
     const [token, setToken] = useState(tokens.tokens?.access_token)
-
     const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
       setTitle(event.target.value);
     };
@@ -88,13 +87,15 @@ const CreateProduct = () => {
       //window.location.href = "/";
       navigate("/");
       }
+      
+    
+
     useEffect(() => {
       if(!loggedIn){
           //window.location.href = "/";
           navigate("/");
       }
       setToken(tokens.tokens?.access_token)
-  
     }, [dispatch, currentUser, loggedIn, navigate, tokens]);
     return(
        

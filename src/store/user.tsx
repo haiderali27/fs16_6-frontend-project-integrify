@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { BASE_URL } from "../constants/constants";
 import axios from "axios";
-import { User } from "../types/types";
+import { User, UserSchema } from "../types/types";
 
 
 
@@ -15,7 +15,7 @@ export const createUser = createAsyncThunk(
         });     
     const avail: isAvail = exists.data;
     if(avail.isAvailable){
-        return null
+        return {currentUser:null, userToken:initialTokens}
     }else{
 
     const createResponse = await axios.post(`${BASE_URL}/users/`, JSON.stringify(userData), {
@@ -29,12 +29,15 @@ export const createUser = createAsyncThunk(
               'Content-Type': 'application/json',
             },
     });
-
+   
         sessionStorage.setItem("tokens", JSON.stringify(tokenResponse.data));
         sessionStorage.setItem("user", JSON.stringify(createResponse.data));
         sessionStorage.setItem("loggedIn", 'true');
-
-      return createResponse.data;;
+        let tokens:tokens = tokenResponse.data;
+        let userToken: UserTokens = {tokens}
+    
+        let currentUser:UserSchema = createResponse.data;
+        return {currentUser, userToken}
     }
   });
 
@@ -51,6 +54,8 @@ export const createUser = createAsyncThunk(
     });
 
         let tokens: tokens = tokenResponse.data;
+        
+        let userToken: UserTokens = {tokens}
         sessionStorage.setItem("tokens", JSON.stringify(tokenResponse.data)); 
           const response = await axios.get(`${BASE_URL}/auth/profile`, {
             headers: {
@@ -60,8 +65,8 @@ export const createUser = createAsyncThunk(
           sessionStorage.setItem("user", JSON.stringify(response.data));
           sessionStorage.setItem("loggedIn", 'true');
 
-          
-      return response.data;;
+      let currentUser:UserSchema = response.data;
+      return {currentUser, userToken};
     
   });
  
@@ -112,7 +117,8 @@ const userSlice = createSlice({
             state.isLoading = true;
         });
         builder.addCase(createUser.fulfilled, (state, { payload }) => {
-            state.currentUser.currentUser = payload;
+            state.tokens = payload.userToken;
+            state.currentUser.currentUser = payload.currentUser;
             state.loggedIn = true;
             state.registerFailed=false
             state.isLoading = false;
@@ -126,7 +132,8 @@ const userSlice = createSlice({
             state.isLoading = true;
         });
         builder.addCase(login.fulfilled, (state, { payload }) => {
-            state.currentUser.currentUser = payload;
+          state.tokens = payload.userToken;
+            state.currentUser.currentUser = payload.currentUser;
             state.loggedIn = true;
             state.logginFaled=false
             state.isLoading = false;

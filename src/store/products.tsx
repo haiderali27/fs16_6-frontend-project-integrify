@@ -49,6 +49,7 @@ export const createProduct = createAsyncThunk(
   async (userData:{title: string, price:number, description: string, categoryId: any, images:string[], token:string}) => {
     const { token, ...userDataWithoutToken } = userData;
 
+
   const response = await axios.post(`${BASE_URL}/products/`, JSON.stringify(userDataWithoutToken), {
           headers: {
             'Content-Type': 'application/json',
