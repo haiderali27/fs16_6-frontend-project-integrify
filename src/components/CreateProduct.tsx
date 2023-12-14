@@ -130,6 +130,7 @@ const CreateProduct = () => {
               <Grid item xs={12}>
                 <TextField
                   required
+                  type="number"
                   fullWidth
                   id="price"
                   label="Price $$"

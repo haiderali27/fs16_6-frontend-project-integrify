@@ -160,6 +160,7 @@ const UpdateProduct = () => {
                 <TextField
                   required
                   fullWidth
+                  type="number"
                   id="price"
                   name="price"
                   autoComplete="price"
